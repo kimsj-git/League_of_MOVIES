@@ -10,7 +10,7 @@ import json
 BASE_URL = 'https://api.themoviedb.org/3'
 
 BASE_DIR = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
-secret_file = os.path.join(BASE_DIR, 'secret.json')
+secret_file = os.path.join(BASE_DIR, 'secrets.json')
 with open(secret_file) as f:
     secrets = json.load(f)
 
