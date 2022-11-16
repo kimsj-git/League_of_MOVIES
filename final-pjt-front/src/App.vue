@@ -1,8 +1,9 @@
 <template>
   <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <nav class="navbar" style="background-color: #e3f2fd;">
+      <router-link to="/">Home</router-link>
+      <router-link to="/league">League</router-link>
+      <router-link to="/account">MyPage</router-link>
     </nav>
     <router-view/>
   </div>
