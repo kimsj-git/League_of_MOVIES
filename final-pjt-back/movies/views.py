@@ -22,34 +22,38 @@ API_KEY = secrets["API_KEY"]
 
 # Create your views here.
 @api_view(['GET'])
-def movies_list(request):
-    path = '/movie/popular'
-    params = {
-        'api_key': API_KEY,
-        'region': 'KR',
-        'language': 'ko',
-    }
-    response = requests.get(BASE_URL + path, params=params).json()
-    movies = response.get('results')
-
-    result = []
-    for movie in movies:
-        movie_dict = {
-            'model': 'movies.movie',
-            'pk': movie.get('id'),
-            'fields': {
-                'movie_id': movie.get('id'),
-                'title': movie.get('title'),
-                'poster_path': movie.get('poster_path'),
-                'overview': movie.get('overview'),
-                'vote_average': movie.get('vote_average'),
-            }
+def get_top_rated(request):
+    path = '/movie/top_rated'
+    json_data = []
+    return_data = []
+    for page in range(1, 6):
+        params = {
+            'api_key': API_KEY,
+            'region': 'KR',
+            'language': 'ko',
+            'page': f'{page}',
         }
-        result.append(movie_dict)
-    print(result)
-    
-    with open('data.json', 'w', encoding="UTF-8") as make_file:
-        json.dump(result, make_file, ensure_ascii=False, indent="\t")
+        response = requests.get(BASE_URL + path, params=params).json()
+        movies = response.get('results')
+        return_data += movies
 
-    serializer = MovieListSerializer(movies, many=True)
+        for movie in movies:
+            movie_dict = {
+                'model': 'movies.movie',
+                'pk': movie.get('id'),
+                'fields': {
+                    'movie_id': movie.get('id'),
+                    'title': movie.get('title'),
+                    'poster_path': movie.get('poster_path'),
+                    'overview': movie.get('overview'),
+                    'vote_average': movie.get('vote_average'),
+                }
+            }
+            json_data.append(movie_dict)
+    
+    # JSON 데이터를 생성하기 위한 코드
+    # with open('data.json', 'w', encoding="UTF-8") as make_file:
+    #     json.dump(json_data, make_file, ensure_ascii=False, indent="\t")
+
+    serializer = MovieListSerializer(return_data, many=True)
     return Response(serializer.data)
