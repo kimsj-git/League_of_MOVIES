@@ -31,6 +31,25 @@ def movies_list(request):
     }
     response = requests.get(BASE_URL + path, params=params).json()
     movies = response.get('results')
-    serializer = MovieListSerializer(movies, many=True)
 
+    result = []
+    for movie in movies:
+        movie_dict = {
+            'model': 'movies.movie',
+            'pk': movie.get('id'),
+            'fields': {
+                'movie_id': movie.get('id'),
+                'title': movie.get('title'),
+                'poster_path': movie.get('poster_path'),
+                'overview': movie.get('overview'),
+                'vote_average': movie.get('vote_average'),
+            }
+        }
+        result.append(movie_dict)
+    print(result)
+    
+    with open('data.json', 'w', encoding="UTF-8") as make_file:
+        json.dump(result, make_file, ensure_ascii=False, indent="\t")
+
+    serializer = MovieListSerializer(movies, many=True)
     return Response(serializer.data)
