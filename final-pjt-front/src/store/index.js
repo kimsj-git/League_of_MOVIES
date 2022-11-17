@@ -6,7 +6,7 @@ Vue.use(Vuex)
 
 const API_URL = 'http://127.0.0.1:8000/'
 const TMDB_API_URL = 'https://api.themoviedb.org/3/'
-const TMDB_API_KEY = process.env.TMDB_API_KEY
+const TMDB_API_KEY = process.env.VUE_APP_TMDB_API_KEY
 
 export default new Vuex.Store({
   state: {
