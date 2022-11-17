@@ -6,8 +6,8 @@
           <img :src="poster" alt="Avatar" style="width:100%;height:100%;">
         </div>
         <div class="flip-card-back">
-          <h1>{{ movie.title }}</h1>
-          <p>{{ movie.overview }}</p>
+          <h1>{{ latestMovie.title }}</h1>
+          <p>{{ latestMovie.overview }}</p>
         </div>
       </div>
     </div>
@@ -22,11 +22,11 @@ const POSTER_URL = 'https://image.tmdb.org/t/p/original'
 export default {
   name: 'MovieListItem',
   props: {
-    movie: Object,
+    latestMovie: Object,
   },
   computed: {
      poster() {
-      return POSTER_URL + this.movie.poster_path
+      return POSTER_URL + this.latestMovie.poster_path
      } 
   }
 }

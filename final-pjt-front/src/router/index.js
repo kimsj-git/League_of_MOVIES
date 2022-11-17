@@ -28,6 +28,21 @@ const routes = [
     component: () => import('../views/AccountView.vue')
   },
   {
+    path: '/match-ranking',
+    name: 'match-ranking',
+    component: () => import('../components/MatchRanking.vue')
+  },
+  {
+    path: '/vote-ranking',
+    name: 'vote-ranking',
+    component: () => import('../components/VoteRanking.vue')
+  },
+  {
+    path: '/latest',
+    name: 'latest',
+    component: () => import('../views/LatestMovieView.vue')
+  },
+  {
     path: '/404',
     name: 'NotFound404',
     component: NotFound404
