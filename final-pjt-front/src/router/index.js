@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import NotFound404 from '@/views/NotFound404'
 
 Vue.use(VueRouter)
 
@@ -11,17 +12,29 @@ const routes = [
     component: HomeView
   },
   {
-    path: '/account',
-    name: 'account',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AccountView.vue')
-  },
-  {
     path: '/league',
     name: 'league',
-    component: () => import('../views/LeagueView.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/LeagueView.vue')
+  },
+  // 욕망기능...
+  // {
+  //   path: '/worldcup',
+  //   name: 'worldcup',
+  //   component: () => import('../views/WorldcupView.vue')
+  // },
+  {
+    path: '/account',
+    name: 'account',
+    component: () => import('../views/AccountView.vue')
+  },
+  {
+    path: '/404',
+    name: 'NotFound404',
+    component: NotFound404
+  },
+  {
+    path: '*',
+    redirect: '/404'
   }
 ]
 
