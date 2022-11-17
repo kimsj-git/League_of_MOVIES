@@ -5,16 +5,21 @@ import axios from 'axios'
 Vue.use(Vuex)
 
 const API_URL = 'http://127.0.0.1:8000/'
+const TMDB_API_URL = 'https://api.themoviedb.org/3/'
 
 export default new Vuex.Store({
   state: {
-    movies: []
+    movies: [],
+    latestMovies: [],
   },
   getters: {
   },
   mutations: {
     LOAD_MOVIE(state, movies) {
       state.movies = movies
+    },
+    GET_LATEST_MOVIES(state, latestMovies) {
+      state.latestMovies = latestMovies
     }
   },
   actions: {
@@ -31,7 +36,22 @@ export default new Vuex.Store({
           console.log(err)
         })
 
-  }},
+    },
+    getLatestMovies(context) {
+      axios({
+        method: 'get',
+        url: `${TMDB_API_URL}movie/top_rated?api_key=b72695a2139a1781696c732096770006&language=ko-KR&page=1`
+      })
+        .then((res) => {
+          console.log(res.data, context)
+          context.commit('GET_LATEST_MOVIES', res.data.results)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
+  
+  },
   modules: {
   }
 })
