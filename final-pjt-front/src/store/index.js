@@ -6,6 +6,7 @@ Vue.use(Vuex)
 
 const API_URL = 'http://127.0.0.1:8000/'
 const TMDB_API_URL = 'https://api.themoviedb.org/3/'
+const TMDB_API_KEY = process.env.TMDB_API_KEY
 
 export default new Vuex.Store({
   state: {
@@ -40,7 +41,7 @@ export default new Vuex.Store({
     getLatestMovies(context) {
       axios({
         method: 'get',
-        url: `${TMDB_API_URL}movie/top_rated?api_key=b72695a2139a1781696c732096770006&language=ko-KR&page=1`
+        url: `${TMDB_API_URL}movie/top_rated?api_key=${TMDB_API_KEY}&language=ko-KR&page=1`
       })
         .then((res) => {
           console.log(res.data, context)
