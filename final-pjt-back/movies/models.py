@@ -3,7 +3,7 @@ from django.conf import settings
 
 # Create your models here.
 class Genre(models.Model):
-    genre_id = models.IntegerField(primary_key=True)
+    # genre_id = models.IntegerField(default=0)
     name = models.CharField(max_length=50)
 
     def __str__(self) -> str:
@@ -16,7 +16,7 @@ class Movie(models.Model):
     poster_path = models.CharField(max_length=100)
     overview = models.CharField(max_length=500)
     vote_average = models.FloatField(default=0)
-    genre = models.ManyToManyField(Genre, related_name='movies')
+    genres = models.ManyToManyField(Genre)
     like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_movies')
 
     def __str__(self) -> str:
@@ -32,7 +32,7 @@ class Match(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
-        return f'Match: {self.movie_1} vs {self.movie_2}'
+        return f'<Match> {self.movie_1} vs {self.movie_2}'
 
 
 class Comment(models.Model):
