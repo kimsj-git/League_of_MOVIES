@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
+import createPersistedState from 'vuex-persistedstate'
+import router from '@/router'
 
 Vue.use(Vuex)
 
@@ -9,11 +11,18 @@ const TMDB_API_URL = 'https://api.themoviedb.org/3/'
 const TMDB_API_KEY = process.env.VUE_APP_TMDB_API_KEY
 
 export default new Vuex.Store({
+  plugins: [
+    createPersistedState(),
+  ],
   state: {
     movies: [],
     latestMovies: [],
+    token: null,
   },
   getters: {
+    isLogin(state) {
+      return state.token ? true : false
+    }
   },
   mutations: {
     LOAD_MOVIE(state, movies) {
@@ -21,6 +30,17 @@ export default new Vuex.Store({
     },
     GET_LATEST_MOVIES(state, latestMovies) {
       state.latestMovies = latestMovies
+    },
+    // SIGN_UP(state, token) {
+    //   state.token = token
+    // },
+    SAVE_TOKEN(state, token) {
+      state.token = token
+      router.push({name: 'HomeView'})
+    },
+    REMOVE_TOKEN(state, token) {
+      state.token = token
+      location.reload();
     }
   },
   actions: {
@@ -28,6 +48,9 @@ export default new Vuex.Store({
       axios({
         method: 'get',
         url: `${API_URL}api/v1/tmdb/toprated`,
+        headers: {
+          Authorization: `Token ${ context.state.token }`
+        }
       })
         .then((res) => {
           // console.log(res.data)
@@ -50,6 +73,46 @@ export default new Vuex.Store({
         .catch((err) => {
           console.log(err)
         })
+    },
+    signUp(context, payload) {
+      const username = payload.username
+      const password1 = payload.password1
+      const password2 = payload.password2
+
+      axios({
+        method: 'post',
+        url: `${API_URL}accounts/signup/`,
+        data: {
+          username, password1, password2
+        }
+      })
+        .then((res) => {
+          context.commit('SAVE_TOKEN', res.data.key)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    logIn(context, payload) {
+      const username = payload.username
+      const password = payload.password
+
+      axios({
+        method: 'post',
+        url: `${API_URL}accounts/login/`,
+        data: {
+          username, password
+        }
+      })
+        .then((res) => {
+          context.commit('SAVE_TOKEN', res.data.key)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    logOut(context) {
+      context.commit('REMOVE_TOKEN', '')
     }
   
   },

@@ -4,10 +4,24 @@
       <router-link to="/">Home</router-link>
       <router-link to="/league">League</router-link>
       <router-link to="/account">MyPage</router-link>
+      <router-link to="/signup">SignUp</router-link>
+      <router-link to="/login">LogIn</router-link>
+      <router-link class="logoutButton" @click.prevent="logout" to="/logout">Logout</router-link>
     </nav>
     <router-view/>
   </div>
 </template>
+
+<script>
+export default {
+  name: 'AppView',
+  methods: {
+    logout() {
+      this.$store.dispatch('logOut')
+    }
+  }
+}
+</script>
 
 <style>
 #app {

@@ -6,8 +6,10 @@
           <img :src="poster" alt="Avatar" style="width:100%;height:100%;">
         </div>
         <div class="flip-card-back">
-          <h1>{{ latestMovie.title }}</h1>
+          <h3>{{ latestMovie.title }}</h3>
+          <hr>
           <p>{{ latestMovie.overview }}</p>
+          <a href=""></a>
         </div>
       </div>
     </div>

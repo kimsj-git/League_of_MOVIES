@@ -19,12 +19,22 @@ export default {
   components: {
     MovieList,
   },
+  computed: {
+    isLogin() {
+      return this.$store.getters.isLogin
+    }
+  },
   created() {
     this.getMovies()
   },
   methods: {
     getMovies() {
-      this.$store.dispatch('getMovies')
+      if (this.isLogin === true) {
+        this.$store.dispatch('getMovies')
+      } else {
+        alert('여기서 로그인하셔야 합니다.')
+        this.$router.push({ name: 'LogInView' })
+      }
     }
   }
 }
