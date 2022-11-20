@@ -3,7 +3,7 @@
     <nav class="navbar" style="background-color: #e3f2fd;">
       <router-link to="/">Home</router-link>
       <router-link to="/league">League</router-link>
-      <router-link to="/account">MyPage</router-link>
+      <router-link to="/mypage">MyPage</router-link>
       <router-link to="/signup">SignUp</router-link>
       <router-link to="/login">LogIn</router-link>
       <router-link class="logoutButton" @click.prevent="logout" to="/logout">Logout</router-link>
@@ -19,7 +19,12 @@ export default {
     logout() {
       this.$store.dispatch('logOut')
     }
-  }
+  },
+  computed: {
+    isLogin() {
+      return this.$store.getters.isLogin
+    }
+  },
 }
 </script>
 

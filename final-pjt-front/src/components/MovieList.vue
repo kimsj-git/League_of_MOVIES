@@ -22,6 +22,7 @@ export default {
   },
   computed: {
     movies() {
+      // console.log(this.$store.state.movies)
       return this.$store.state.movies
     }
   }

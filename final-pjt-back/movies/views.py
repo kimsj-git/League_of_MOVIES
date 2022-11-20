@@ -27,7 +27,7 @@ API_KEY = secrets["API_KEY"]
 
 # Create your views here.
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 def get_top_rated(request):
     path = '/movie/top_rated'
     json_data = []

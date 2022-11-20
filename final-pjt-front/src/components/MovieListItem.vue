@@ -7,7 +7,9 @@
         </div>
         <div class="flip-card-back">
           <h3>{{ movie.title }}</h3>
+          <p>{{ movie.movie_id }}</p>
           <p>{{ movie.overview }}</p>
+          <!-- <MovieDetail/> -->
         </div>
       </div>
     </div>
@@ -17,17 +19,24 @@
 
 <script>
 
+// import MovieDetail from '@/components/MovieDetail'
+
 const POSTER_URL = 'https://image.tmdb.org/t/p/original'
 
 export default {
   name: 'MovieListItem',
+  components: {
+    // MovieDetail
+  },
   props: {
     movie: Object,
   },
   computed: {
      poster() {
+       console.log(this.movie.pk)
       return POSTER_URL + this.movie.poster_path
      } 
+
   }
 }
 </script>
