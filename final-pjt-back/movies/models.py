@@ -17,7 +17,8 @@ class Movie(models.Model):
     overview = models.CharField(max_length=500)
     vote_average = models.FloatField(default=0)
     genres = models.ManyToManyField(Genre)
-    like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_movies')
+    like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_movies', blank=True)
+    win_movies = models.ManyToManyField('self', symmetrical=False, related_name='lose_movies', blank=True)
 
     def __str__(self) -> str:
         return self.title
@@ -27,8 +28,8 @@ class Match(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     movie_1 = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='movie_1')
     movie_2 = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='movie_2')
-    movie_1_voters = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='voted_movies_1')
-    movie_2_voters = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='voted_movies_2')
+    movie_1_voters = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='voted_movies_1', blank=True)
+    movie_2_voters = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='voted_movies_2', blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
@@ -38,7 +39,7 @@ class Match(models.Model):
 class Comment(models.Model):
     match = models.ForeignKey(Match, on_delete=models.CASCADE, related_name='comments')
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    voted_movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='comments')
+    voted_movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='comments', blank=True)
     content = models.CharField(max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
