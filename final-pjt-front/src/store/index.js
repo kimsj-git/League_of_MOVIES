@@ -38,9 +38,10 @@ export default new Vuex.Store({
       state.token = token
       router.push({name: 'HomeView'})
     },
-    REMOVE_TOKEN(state, token) {
-      state.token = token
-      location.reload();
+    REMOVE_TOKEN(state) {
+      localStorage.clear()
+      state.token = null
+      // location.reload();
     }
   },
   actions: {
@@ -53,7 +54,7 @@ export default new Vuex.Store({
         }
       })
         .then((res) => {
-          // console.log(res.data)
+          console.log(res.data)
           context.commit('LOAD_MOVIE', res.data)
         })
         .catch((err) => {
@@ -112,7 +113,17 @@ export default new Vuex.Store({
         })
     },
     logOut(context) {
-      context.commit('REMOVE_TOKEN', '')
+      axios({
+        method: 'post',
+        url: `${API_URL}accounts/logout/`
+      })
+        .then((res) => {
+          console.log(res)
+          context.commit('REMOVE_TOKEN')
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     }
   
   },

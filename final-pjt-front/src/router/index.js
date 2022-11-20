@@ -26,9 +26,9 @@ const routes = [
   //   component: () => import('../views/WorldcupView.vue')
   // },
   {
-    path: '/account',
-    name: 'account',
-    component: () => import('../views/AccountView.vue')
+    path: '/mypage',
+    name: 'mypage',
+    component: () => import('../views/MyPageView.vue')
   },
   {
     path: '/match-ranking',
