@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Movie, Match
+from .models import Movie, Match, Comment
 
 class MovieListSerializer(serializers.ModelSerializer):
     
@@ -26,4 +26,11 @@ class MatchSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Match
+        fields = '__all__'
+
+
+class CommentSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Comment
         fields = '__all__'
