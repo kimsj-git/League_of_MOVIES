@@ -8,8 +8,8 @@ from rest_framework.permissions import IsAuthenticated
 # 주석 해제 후 원하는 기능에 @permission_classes([IsAuthenticated]) 추가해주면 됨!
 
 from django.shortcuts import get_object_or_404, get_list_or_404
-from .serializers import MovieListSerializer, MovieSerializer
-from .models import Movie
+from .serializers import MovieListSerializer, MovieSerializer, MatchListSerializer, MatchSerializer
+from .models import Movie, Match, Comment
 
 import requests
 
@@ -28,38 +28,28 @@ API_KEY = secrets["API_KEY"]
 # Create your views here.
 @api_view(['GET'])
 # @permission_classes([IsAuthenticated])
-def get_top_rated(request):
-    path = '/movie/top_rated'
-    json_data = []
-    return_data = []
-    for page in range(1, 6):
-        params = {
-            'api_key': API_KEY,
-            'region': 'KR',
-            'language': 'ko',
-            'page': f'{page}',
-        }
-        response = requests.get(BASE_URL + path, params=params).json()
-        movies = response.get('results')
-        return_data += movies
+def movie_list(request):
+    movies = get_list_or_404(Movie)
+    serializer = MovieListSerializer(movies, many=True)
+    return Response(serializer.data)
 
-        for movie in movies:
-            movie_dict = {
-                'model': 'movies.movie',
-                'pk': movie.get('id'),
-                'fields': {
-                    'movie_id': movie.get('id'),
-                    'title': movie.get('title'),
-                    'poster_path': movie.get('poster_path'),
-                    'overview': movie.get('overview'),
-                    'vote_average': movie.get('vote_average'),
-                }
-            }
-            json_data.append(movie_dict)
-    
-    # JSON 데이터를 생성하기 위한 코드
-    # with open('data.json', 'w', encoding="UTF-8") as make_file:
-    #     json.dump(json_data, make_file, ensure_ascii=False, indent="\t")
+@api_view(['GET'])
+def movie_detail(request, movie_pk):
+    movie = get_object_or_404(Movie, pk=movie_pk)
+    serializer = MovieSerializer(movie)
+    print(serializer.data)
+    return Response(serializer.data)
 
-    serializer = MovieListSerializer(return_data, many=True)
+
+@api_view(['GET'])
+def match_list(request):
+    matches = get_list_or_404(Match)
+    serializer = MatchListSerializer(matches, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def match_detail(request, match_pk):
+    match = get_object_or_404(Match)
+    serializer = MatchSerializer(match, pk=match_pk)
     return Response(serializer.data)
