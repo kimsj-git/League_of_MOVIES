@@ -46,7 +46,20 @@ def movie_list(request):
 def movie_detail(request, movie_pk):
     movie = get_object_or_404(Movie, pk=movie_pk)
     serializer = MovieSerializer(movie)
-    print(serializer.data)
+    return Response(serializer.data)
+
+
+@api_view(['POST'])
+def movie_likes(request, movie_pk):
+    print(request)
+    movie = get_object_or_404(Movie, movie_id=movie_pk)
+    print(movie)
+    if request.method == 'POST':
+        if movie.like_users.filter(pk=request.user.pk).exists():
+            movie.like_users.remove(request.user)
+        else:
+            movie.like_users.add(request.user)
+    serializer = MovieSerializer(movie)
     return Response(serializer.data)
 
 
@@ -67,8 +80,8 @@ def match_list(request):
 
 @api_view(['GET'])
 def match_detail(request, match_pk):
-    match = get_object_or_404(Match)
-    serializer = MatchSerializer(match, pk=match_pk)
+    match = get_object_or_404(Match, pk=match_pk)
+    serializer = MatchSerializer(match)
     return Response(serializer.data)
 
 
@@ -77,7 +90,7 @@ def match_detail(request, match_pk):
 #     if request.method == 'POST':
 #         match = get_object_or_404(Match, pk=match_pk)
 #         if match.movie_1.movie_id == movie_pk:
-#             match.movie_1_voters.add()
+#             match.movie_1_voters.add(request.user.pk)
 
 
 # @api_view(['GET'])
