@@ -48,13 +48,13 @@ export default new Vuex.Store({
     getMovies(context) {
       axios({
         method: 'get',
-        url: `${API_URL}api/v1/tmdb/toprated`,
+        url: `${API_URL}api/v1/movies/`,
         headers: {
           Authorization: `Token ${ context.state.token }`
         }
       })
         .then((res) => {
-          console.log(res.data)
+          // console.log(res.data)
           context.commit('LOAD_MOVIE', res.data)
         })
         .catch((err) => {

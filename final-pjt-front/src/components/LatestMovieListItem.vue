@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div @click="goDetail(latestMovie.movie_id)">
     <div class="flip-card">
       <div class="flip-card-inner">
         <div class="flip-card-front">
@@ -9,7 +9,6 @@
           <h3>{{ latestMovie.title }}</h3>
           <hr>
           <p>{{ latestMovie.overview }}</p>
-          <a href=""></a>
         </div>
       </div>
     </div>
@@ -25,6 +24,11 @@ export default {
   name: 'MovieListItem',
   props: {
     latestMovie: Object,
+  },
+  methods: {
+    goDetail(movie_id) {
+      this.$router.push({ name: 'MovieDetail', params:{movie_id} })
+    }
   },
   computed: {
      poster() {

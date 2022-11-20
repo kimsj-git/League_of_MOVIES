@@ -11,7 +11,7 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'home',
+    name: 'HomeView',
     component: HomeView
   },
   {
@@ -44,6 +44,11 @@ const routes = [
     path: '/latest',
     name: 'latest',
     component: () => import('../views/LatestMovieView.vue')
+  },
+  {
+    path: 'movie/:id',
+    name: 'MovieDetail',
+    component: () => import('../components/MovieDetail.vue')
   },
   {
     path: '/signup',
