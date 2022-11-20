@@ -3,10 +3,10 @@
     <div class="flip-card">
       <div class="flip-card-inner">
         <div class="flip-card-front">
-          <img :src="poster" alt="Avatar" style="width:100%;height:100%;">
+          <img :src="poster" alt="IMG" style="width:100%;height:100%;">
         </div>
         <div class="flip-card-back">
-          <h1>{{ movie.title }}</h1>
+          <h3>{{ movie.title }}</h3>
           <p>{{ movie.overview }}</p>
         </div>
       </div>

@@ -2,6 +2,11 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
+from rest_framework.decorators import permission_classes
+from rest_framework.permissions import IsAuthenticated
+# 인증된 경우만 허용하도록 권한 부여하는 decorator
+# 주석 해제 후 원하는 기능에 @permission_classes([IsAuthenticated]) 추가해주면 됨!
+
 from django.shortcuts import get_object_or_404, get_list_or_404
 from .serializers import MovieListSerializer, MovieSerializer
 from .models import Movie
@@ -22,6 +27,7 @@ API_KEY = secrets["API_KEY"]
 
 # Create your views here.
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def get_top_rated(request):
     path = '/movie/top_rated'
     json_data = []
