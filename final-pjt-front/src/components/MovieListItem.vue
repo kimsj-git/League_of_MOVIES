@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div @click="goDetail(movie.movie_id)">
     <div class="flip-card">
       <div class="flip-card-inner">
         <div class="flip-card-front">
@@ -7,9 +7,8 @@
         </div>
         <div class="flip-card-back">
           <h3>{{ movie.title }}</h3>
-          <p>{{ movie.movie_id }}</p>
           <p>{{ movie.overview }}</p>
-          <!-- <MovieDetail/> -->
+          <!-- <MovieDetail :movie="movie"/> -->
         </div>
       </div>
     </div>
@@ -31,12 +30,16 @@ export default {
   props: {
     movie: Object,
   },
+  methods: {
+    goDetail(movie_id) {
+      this.$router.push({ name: 'MovieDetail', params:{movie_id} })
+    }
+  },
   computed: {
      poster() {
-       console.log(this.movie.pk)
+      //  console.log(this.movie.pk)
       return POSTER_URL + this.movie.poster_path
      } 
-
   }
 }
 </script>
