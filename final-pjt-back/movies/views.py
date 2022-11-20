@@ -8,7 +8,7 @@ from rest_framework.permissions import IsAuthenticated
 # 주석 해제 후 원하는 기능에 @permission_classes([IsAuthenticated]) 추가해주면 됨!
 
 from django.shortcuts import get_object_or_404, get_list_or_404
-from .serializers import MovieListSerializer, MovieSerializer, MatchListSerializer, MatchSerializer
+from .serializers import MovieListSerializer, MovieSerializer, MatchListSerializer, MatchSerializer, CommentSerializer
 from .models import Movie, Match, Comment
 
 import requests
@@ -26,12 +26,21 @@ with open(secret_file) as f:
 API_KEY = secrets["API_KEY"]
 
 # Create your views here.
-@api_view(['GET'])
+@api_view(['GET', 'POST'])
 # @permission_classes([IsAuthenticated])
 def movie_list(request):
-    movies = get_list_or_404(Movie)
-    serializer = MovieListSerializer(movies, many=True)
-    return Response(serializer.data)
+    if request.method == 'GET':
+        movies = get_list_or_404(Movie)
+        serializer = MovieListSerializer(movies, many=True)
+        return Response(serializer.data)
+    
+    elif request.method == 'POST':
+        serializer = MovieSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 @api_view(['GET'])
 def movie_detail(request, movie_pk):
@@ -43,9 +52,17 @@ def movie_detail(request, movie_pk):
 
 @api_view(['GET'])
 def match_list(request):
-    matches = get_list_or_404(Match)
-    serializer = MatchListSerializer(matches, many=True)
-    return Response(serializer.data)
+    if request.method == 'GET':
+        matches = get_list_or_404(Match)
+        serializer = MatchListSerializer(matches, many=True)
+        return Response(serializer.data)
+    
+    elif request.method == 'POST':
+        serialzier = MatchSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)        
 
 
 @api_view(['GET'])
@@ -53,3 +70,37 @@ def match_detail(request, match_pk):
     match = get_object_or_404(Match)
     serializer = MatchSerializer(match, pk=match_pk)
     return Response(serializer.data)
+
+
+# @api_view(['POST'])
+# def match_vote(request, match_pk, movie_pk):
+#     if request.method == 'POST':
+#         match = get_object_or_404(Match, pk=match_pk)
+#         if match.movie_1.movie_id == movie_pk:
+#             match.movie_1_voters.add()
+
+
+# @api_view(['GET'])
+# def comment_list(request, match_pk):
+#     comments = Comment.objects.filter(match=Match.objects.get(pk=match_pk))
+#     print(comments)
+
+#     serializer = CommentSerializer(comments, many=True)
+#     return Response(serializer.data)
+
+
+@api_view(['GET'])
+def comment_detail(request, match_pk, comment_pk):
+    comment = get_object_or_404(Comment, pk=comment_pk)
+    serializer = CommentSerializer(comment)
+    return Response(serializer.data)
+
+
+@api_view(['POST'])
+def comment_create(request, match_pk, movie_pk):
+    match = get_object_or_404(Match, pk=match_pk)
+    serializer = CommentSerializer(data=request.data)
+    if serializer.is_valid(raise_exception=True):
+        serializer.save(match=match)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
