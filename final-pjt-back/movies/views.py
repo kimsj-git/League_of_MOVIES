@@ -136,27 +136,39 @@ def match_vote(request, match_pk, movie_pk):
     return Response(serializer.data)
 
 
-# @api_view(['GET'])
-# def comment_list(request, match_pk):
-#     comments = Comment.objects.filter(match=Match.objects.get(pk=match_pk))
-#     print(comments)
+@api_view(['GET', 'POST'])
+def comment_list(request, match_pk):
+    if request.method == 'GET':
+        match = get_object_or_404(Match, pk=match_pk)
+        comments = Comment.objects.filter(match=match)
+        serializer = CommentSerializer(comments, many=True)
+        return Response(serializer.data)
+    
+    elif request.method == 'POST':
+        match = get_object_or_404(Match, pk=match_pk)
+        serializer = CommentSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save(match=match)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-#     serializer = CommentSerializer(comments, many=True)
-#     return Response(serializer.data)
-
-
-@api_view(['GET'])
+@api_view(['GET', 'PUT', 'DELETE'])
 def comment_detail(request, match_pk, comment_pk):
     comment = get_object_or_404(Comment, pk=comment_pk)
-    serializer = CommentSerializer(comment)
-    return Response(serializer.data)
-
-
-@api_view(['POST'])
-def comment_create(request, match_pk, movie_pk):
     match = get_object_or_404(Match, pk=match_pk)
-    serializer = CommentSerializer(data=request.data)
-    if serializer.is_valid(raise_exception=True):
-        serializer.save(match=match)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    if request.method == 'GET':
+        serializer = CommentSerializer(comment)
+        return Response(serializer.data)
+    
+    # 댓글 수정 기능: user 자동으로 들어가도록 수정 필요
+    elif request.method == 'PUT':
+        serializer = CommentSerializer(comment, data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save(match=match)
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE':
+        comment.delete()
+        return Response('댓글이 삭제되었습니다.', status=status.HTTP_204_NO_CONTENT)
+
