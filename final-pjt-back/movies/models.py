@@ -39,7 +39,7 @@ class Match(models.Model):
 class Comment(models.Model):
     match = models.ForeignKey(Match, on_delete=models.CASCADE, related_name='comments')
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    voted_movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='comments', blank=True)
+    voted_movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='comments', blank=True, null=True)
     content = models.CharField(max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

@@ -39,4 +39,3 @@ class MatchSerializer(serializers.ModelSerializer):
         model = Match
         fields = '__all__'
 
-
