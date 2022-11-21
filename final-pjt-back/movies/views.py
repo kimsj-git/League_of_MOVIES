@@ -9,7 +9,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from django.shortcuts import get_object_or_404, get_list_or_404
 from django.http.response import JsonResponse
-from .serializers import MovieListSerializer, MovieSerializer, MatchListSerializer, MatchSerializer, CommentSerializer
+from .serializers import MovieListSerializer, MovieSerializer, MatchListSerializer, MatchSerializer, CommentSerializer, MovieDetailSerializer
 from .models import Movie, Match, Comment
 
 import requests
@@ -46,7 +46,7 @@ def movie_list(request):
 @api_view(['GET'])
 def movie_detail(request, movie_pk):
     movie = get_object_or_404(Movie, pk=movie_pk)
-    serializer = MovieSerializer(movie)
+    serializer = MovieDetailSerializer(movie)
     return Response(serializer.data)
 
 
@@ -73,7 +73,7 @@ def movie_likes(request, movie_pk):
     return Response(movie_json)
 
 
-@api_view(['GET'])
+@api_view(['GET', 'POST'])
 def match_list(request):
     if request.method == 'GET':
         matches = get_list_or_404(Match)
@@ -98,14 +98,39 @@ def match_detail(request, match_pk):
 @api_view(['POST'])
 def match_vote(request, match_pk, movie_pk):
     match = get_object_or_404(Match, pk=match_pk)
-    voted_movie = get_object_or_404(Movie, pk=movie_pk)
-    if voted_movie == match.movie_1:
-        against_movie = match.movie_2
-    elif voted_movie == match.movie_2:
-        against_movie = match.movie_1
+    movie_1 = get_object_or_404(Movie, pk=match.movie_1.pk)
+    movie_2 = get_object_or_404(Movie, pk=match.movie_2.pk)
+
+    # 이미 투표한 사용자는 pass
+    if match.movie_1_voters.filter(pk=request.user.pk).exists():
+        pass
+    elif match.movie_2_voters.filter(pk=request.user.pk).exists():
+        pass
     
-    if match.movie_1.movie_id == movie_pk:
-        match.movie_1_voters.add(request.user.pk)
+    # 입력받은 movie_pk에 해당하는 movie에 대해 투표
+    else:        
+        if movie_pk == match.movie_1:
+            match.movie_1_voters.add(request.user)
+        elif movie_pk == match.movie_2:
+            match.movie_2_voters.add(request.user)
+    
+    # movie_1, movie_2 각각의 득표수를 비교하여 두 영화의 승패 관계 갱신
+    movie_1_voters_count = match.movie_1_voters.count()
+    movie_2_voters_count = match.movie_2_voters.count()
+    if movie_1.win_movies.filter(pk=movie_2.pk).exists():
+        if movie_1_voters_count == movie_2_voters_count:
+            movie_1.win_movies.remove(movie_2)
+    elif movie_2.win_movies.filter(pk=movie_1.pk).exists():
+        if movie_1_voters_count == movie_2_voters_count:
+            movie_2.win_movies.remove(movie_1)
+    else:
+        if movie_1_voters_count > movie_2_voters_count:
+            movie_1.win_movies.add(movie_2)
+        elif movie_1_voters_count < movie_2_voters_count:
+            movie_2.win_movies.add(movie_1)
+    
+    serializer = MatchSerializer(match)
+    return Response(serializer.data)
 
 
 # @api_view(['GET'])
