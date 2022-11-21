@@ -28,7 +28,7 @@ class MatchListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Match
-        fields = ('user', 'movie_1', 'movie_2', 'movie_1_voters', 'movie_2_voters')
+        fields = ('pk', 'user', 'movie_1', 'movie_2', 'movie_1_voters', 'movie_2_voters')
 
 
 class MatchSerializer(serializers.ModelSerializer):
