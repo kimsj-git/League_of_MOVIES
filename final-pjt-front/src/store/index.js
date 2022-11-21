@@ -35,6 +35,9 @@ export default new Vuex.Store({
     // SIGN_UP(state, token) {
     //   state.token = token
     // },
+    GET_MATCHES(state, matches) {
+      state.matches = matches
+    },
     SAVE_TOKEN(state, token) {
       state.token = token
       router.push({name: 'HomeView'})
@@ -71,6 +74,21 @@ export default new Vuex.Store({
         .then((res) => {
           console.log(res.data, context)
           context.commit('GET_LATEST_MOVIES', res.data.results)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    getMatches(context) {
+      axios({
+        method: 'get',
+        url: `${API_URL}api/v1/league/`,
+        headers: {
+          Authorization: `Token ${ context.state.token }`
+        }
+      })
+        .then((res) => {
+          context.commit('GET_MATCHES', res.data)
         })
         .catch((err) => {
           console.log(err)
