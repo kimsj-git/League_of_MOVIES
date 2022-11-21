@@ -1,10 +1,12 @@
 <template>
-  <div @click.stop="goMatchDetail(match.movie_1, match.movie_2)">
+  <div @click.stop="goMatchDetail(match.pk, match.movie_1, match.movie_2)">
     <!-- <h4>{{ match }}</h4> -->
+    <br>
     <img :src="firstPoster" alt="IMG" style="width:30%;height:auto;"> 
     <img :src="secPoster" alt="IMG" style="width:30%;height:auto;"> 
-    <hr>
+    <br>
     <h4>{{ firstMovie.title }} vs {{ secMovie.title }}</h4>
+    <hr>
   </div>
 </template>
 
@@ -39,8 +41,8 @@ export default {
     }
   },
   methods: {
-    goMatchDetail(movie_1, movie_2) {
-      this.$router.push({ name: 'LeagueDetail', params:{movie_1, movie_2} })
+    goMatchDetail(match_pk, movie_1, movie_2) {
+      this.$router.push({ name: 'LeagueDetail', params:{match_pk, movie_1, movie_2} })
     },
     getMatchMovies() {
         const firstId = this.match.movie_1
