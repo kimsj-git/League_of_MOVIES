@@ -8,6 +8,7 @@ from rest_framework.permissions import IsAuthenticated
 # 주석 해제 후 원하는 기능에 @permission_classes([IsAuthenticated]) 추가해주면 됨!
 
 from django.shortcuts import get_object_or_404, get_list_or_404
+from django.http.response import JsonResponse
 from .serializers import MovieListSerializer, MovieSerializer, MatchListSerializer, MatchSerializer, CommentSerializer
 from .models import Movie, Match, Comment
 
@@ -49,18 +50,27 @@ def movie_detail(request, movie_pk):
     return Response(serializer.data)
 
 
-@api_view(['POST'])
+@api_view(['GET', 'POST'])
 def movie_likes(request, movie_pk):
-    print(request)
-    movie = get_object_or_404(Movie, movie_id=movie_pk)
-    print(movie)
-    if request.method == 'POST':
+    movie = get_object_or_404(Movie, pk=movie_pk)
+    
+    if request.method == 'GET':
+        pass
+    elif request.method == 'POST':
         if movie.like_users.filter(pk=request.user.pk).exists():
             movie.like_users.remove(request.user)
+            is_liked = False
         else:
             movie.like_users.add(request.user)
+            is_liked = True
+    
     serializer = MovieSerializer(movie)
-    return Response(serializer.data)
+    movie_json = serializer.data
+    like_data = {
+        "is_liked": is_liked,
+    }
+    movie_json.update(like_data)
+    return Response(movie_json)
 
 
 @api_view(['GET'])
@@ -85,12 +95,17 @@ def match_detail(request, match_pk):
     return Response(serializer.data)
 
 
-# @api_view(['POST'])
-# def match_vote(request, match_pk, movie_pk):
-#     if request.method == 'POST':
-#         match = get_object_or_404(Match, pk=match_pk)
-#         if match.movie_1.movie_id == movie_pk:
-#             match.movie_1_voters.add(request.user.pk)
+@api_view(['POST'])
+def match_vote(request, match_pk, movie_pk):
+    match = get_object_or_404(Match, pk=match_pk)
+    voted_movie = get_object_or_404(Movie, pk=movie_pk)
+    if voted_movie == match.movie_1:
+        against_movie = match.movie_2
+    elif voted_movie == match.movie_2:
+        against_movie = match.movie_1
+    
+    if match.movie_1.movie_id == movie_pk:
+        match.movie_1_voters.add(request.user.pk)
 
 
 # @api_view(['GET'])
