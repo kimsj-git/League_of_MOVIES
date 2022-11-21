@@ -1,14 +1,15 @@
 <template>
-  <div @click="goDetail(movie.movie_id)">
+  <div>
     <div class="flip-card">
       <div class="flip-card-inner">
-        <div class="flip-card-front">
+        <div @click="goDetail(movie.movie_id)" class="flip-card-front">
           <img :src="poster" alt="IMG" style="width:100%;height:100%;">
         </div>
-        <div class="flip-card-back">
+        <div @click="goDetail(movie.movie_id)" class="flip-card-back">
           <h3>{{ movie.title }}</h3>
           <p>{{ movie.overview }}</p>
-          <!-- <MovieDetail :movie="movie"/> -->
+          <button v-if="isLiked" @click.prevent="movieLikes(movie.movie_id)">좋아요 취소</button>
+          <button v-else @click.prevent="movieLikes(movie.movie_id)">좋아요</button>
         </div>
       </div>
     </div>
@@ -17,15 +18,19 @@
 </template>
 
 <script>
-
-// import MovieDetail from '@/components/MovieDetail'
+import axios from 'axios'
 
 const POSTER_URL = 'https://image.tmdb.org/t/p/original'
+const API_URL = 'http://127.0.0.1:8000/'
 
 export default {
   name: 'MovieListItem',
   components: {
-    // MovieDetail
+  },
+  data() {
+    return {
+      isLiked: null
+    }
   },
   props: {
     movie: Object,
@@ -33,13 +38,29 @@ export default {
   methods: {
     goDetail(movie_id) {
       this.$router.push({ name: 'MovieDetail', params:{movie_id} })
+    },
+    movieLikes(movie_id) {
+      axios({
+        method: 'post',
+        url: `${API_URL}api/v1/movies/${Number(movie_id)}/likes/`,
+        headers: {
+          Authorization: `Token ${ this.$store.state.token }`
+        }
+      })
+        .then((res) => {
+          console.log(res)
+          this.isLiked = res.data.is_liked
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     }
   },
   computed: {
      poster() {
       //  console.log(this.movie.pk)
       return POSTER_URL + this.movie.poster_path
-     } 
+     }, 
   }
 }
 </script>
