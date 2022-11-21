@@ -55,7 +55,10 @@ def movie_likes(request, movie_pk):
     movie = get_object_or_404(Movie, pk=movie_pk)
     
     if request.method == 'GET':
-        pass
+        if movie.like_users.filter(pk=request.user.pk).exists():
+            is_liked = True
+        else:
+            is_liked =False
     elif request.method == 'POST':
         if movie.like_users.filter(pk=request.user.pk).exists():
             movie.like_users.remove(request.user)

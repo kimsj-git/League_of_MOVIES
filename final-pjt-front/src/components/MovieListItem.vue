@@ -1,15 +1,15 @@
 <template>
-  <div>
+  <div @click.stop="goDetail(movie.movie_id)">
     <div class="flip-card">
       <div class="flip-card-inner">
-        <div @click="goDetail(movie.movie_id)" class="flip-card-front">
+        <div class="flip-card-front">
           <img :src="poster" alt="IMG" style="width:100%;height:100%;">
         </div>
-        <div @click="goDetail(movie.movie_id)" class="flip-card-back">
+        <div class="flip-card-back">
           <h3>{{ movie.title }}</h3>
           <p>{{ movie.overview }}</p>
-          <button v-if="isLiked" @click.prevent="movieLikes(movie.movie_id)">좋아요 취소</button>
-          <button v-else @click.prevent="movieLikes(movie.movie_id)">좋아요</button>
+          <button v-if="isLiked" @click.stop="movieLikes(movie.movie_id)">좋아요 취소</button>
+          <button v-if="!isLiked" @click.stop="movieLikes(movie.movie_id)">좋아요</button>
         </div>
       </div>
     </div>
@@ -29,15 +29,33 @@ export default {
   },
   data() {
     return {
-      isLiked: null
+      isLiked: null,
     }
   },
   props: {
-    movie: Object,
+    movie: Object, 
+  },
+  created() {
+    this.getLiked()
   },
   methods: {
     goDetail(movie_id) {
       this.$router.push({ name: 'MovieDetail', params:{movie_id} })
+    },
+    getLiked() {
+      axios({
+        method: 'get',
+        url: `${API_URL}api/v1/movies/${Number(this.movie.movie_id)}/likes/`,
+        headers: {
+          Authorization: `Token ${ this.$store.state.token }`
+        }
+      })
+        .then((res) => {
+          this.isLiked = res.data.is_liked
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     },
     movieLikes(movie_id) {
       axios({
@@ -50,6 +68,7 @@ export default {
         .then((res) => {
           console.log(res)
           this.isLiked = res.data.is_liked
+          console.log(this.isLiked)
         })
         .catch((err) => {
           console.log(err)
@@ -57,10 +76,10 @@ export default {
     }
   },
   computed: {
-     poster() {
+    poster() {
       //  console.log(this.movie.pk)
       return POSTER_URL + this.movie.poster_path
-     }, 
+    }, 
   }
 }
 </script>
