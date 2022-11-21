@@ -16,7 +16,7 @@ const routes = [
   },
   {
     path: '/league',
-    name: 'league',
+    name: 'LeagueView',
     component: () => import(/* webpackChunkName: "about" */ '../views/LeagueView.vue')
   },
   // 욕망기능...
@@ -49,6 +49,11 @@ const routes = [
     path: 'movie/:id',
     name: 'MovieDetail',
     component: () => import('../components/MovieDetail.vue')
+  },
+  {
+    path: 'league/:id',
+    name: 'LeagueDetail',
+    component: () => import('../components/LeagueDetail.vue')
   },
   {
     path: '/signup',
