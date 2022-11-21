@@ -17,6 +17,7 @@ export default new Vuex.Store({
   state: {
     movies: [],
     latestMovies: [],
+    matches: [],
     token: null,
   },
   getters: {
