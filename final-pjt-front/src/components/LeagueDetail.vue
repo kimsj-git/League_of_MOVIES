@@ -13,7 +13,7 @@
 
       <form @submit.prevent="createComment">
         <label for="content">댓글: </label>
-        <textarea id="content" cols="30" rows="3"></textarea>
+        <textarea v-model="content" id="content" cols="30" rows="3"></textarea>
         <input type="submit" value="작성">
       </form>
 
@@ -43,6 +43,7 @@ export default {
       secMovie: null,
       match: null,
       comments: null,
+      content: null,
     }
   },
   computed: {
@@ -109,12 +110,14 @@ export default {
       this.$router.push({ name: 'MovieDetail', params:{movie_id} })
     },
     createComment() {
+      let content = this.content
       axios({
         method:'post',
         url: `${MATCH_URL}/${Number(this.$route.params.match_pk)}/comments/`,
         headers: {
           Authorization: `Token ${ this.$store.state.token }`
-        }
+        },
+        data: { content }
       })
         .then(() => {
           this.getComments()
