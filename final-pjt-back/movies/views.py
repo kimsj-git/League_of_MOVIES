@@ -10,6 +10,7 @@ from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404, get_list_or_404
 from django.http.response import JsonResponse
 from django.contrib.auth import get_user_model
+from django.db.models import Q
 from .serializers import MovieListSerializer, MovieSerializer, MatchListSerializer, MatchSerializer, CommentSerializer, MovieDetailSerializer
 from .models import Movie, Match, Comment
 
@@ -17,15 +18,6 @@ import requests
 
 import os
 import json
-
-BASE_URL = 'https://api.themoviedb.org/3'
-
-BASE_DIR = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
-secret_file = os.path.join(BASE_DIR, 'secrets.json')
-with open(secret_file) as f:
-    secrets = json.load(f)
-
-API_KEY = secrets["API_KEY"]
 
 # Create your views here.
 @api_view(['GET', 'POST'])
@@ -102,39 +94,38 @@ def match_detail(request, match_pk):
 @api_view(['POST'])
 def match_vote(request, match_pk, movie_pk):
     match = get_object_or_404(Match, pk=match_pk)
-    movie_1 = get_object_or_404(Movie, pk=match.movie_1.pk)
-    movie_2 = get_object_or_404(Movie, pk=match.movie_2.pk)
+    movie_1 = match.movie_1
+    movie_2 = match.movie_2
 
-    # 이미 투표한 사용자는 pass
-    if match.movie_1_voters.filter(pk=request.user.pk).exists():
-        pass
-    elif match.movie_2_voters.filter(pk=request.user.pk).exists():
-        pass
-    
-    # 입력받은 movie_pk에 해당하는 movie에 대해 투표
-    else:        
-        if movie_pk == match.movie_1:
+    # 해당 매치에서 투표하지 않은 사용자들만 투표 가능
+    if match.movie_1_voters.filter(id=request.user.id).count() == 0 and match.movie_2_voters.filter(id=request.user.id).count() == 0:    
+        # 입력받은 movie_pk에 해당하는 movie에 대해 투표
+        if movie_pk == movie_1.pk:
             match.movie_1_voters.add(request.user)
-        elif movie_pk == match.movie_2:
+        elif movie_pk == movie_2.pk:
             match.movie_2_voters.add(request.user)
+    # 이미 투표한 사용자
+    else:
+        print('이미 투표하셨습니다.')
     
     # movie_1, movie_2 각각의 득표수를 비교하여 두 영화의 승패 관계 갱신
-    movie_1_voters_count = match.movie_1_voters.count()
-    movie_2_voters_count = match.movie_2_voters.count()
-    if movie_1.win_movies.filter(pk=movie_2.pk).exists():
-        if movie_1_voters_count == movie_2_voters_count:
+    count_1 = match.movie_1_voters.count()  # movie_1 득표수
+    count_2 = match.movie_2_voters.count()  # movie_2 득표수
+    if count_1 == count_2:
+
+        if movie_1.win_movies.filter(pk=movie_2.pk).exists():
             movie_1.win_movies.remove(movie_2)
-    elif movie_2.win_movies.filter(pk=movie_1.pk).exists():
-        if movie_1_voters_count == movie_2_voters_count:
+        elif movie_2.win_movies.filter(pk=movie_1.pk).exists():
             movie_2.win_movies.remove(movie_1)
-    else:
-        if movie_1_voters_count > movie_2_voters_count:
-            movie_1.win_movies.add(movie_2)
-        elif movie_1_voters_count < movie_2_voters_count:
-            movie_2.win_movies.add(movie_1)
+    
+    elif count_1 > count_2:
+        movie_1.win_movies.add(movie_2)
+    
+    elif count_1 < count_2:
+        movie_2.win_movies.add(movie_1)
     
     serializer = MatchSerializer(match)
-    return Response(serializer.data)
+    return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 @api_view(['GET', 'POST'])
@@ -176,3 +167,20 @@ def comment_detail(request, match_pk, comment_pk):
         comment.delete()
         return Response('댓글이 삭제되었습니다.', status=status.HTTP_204_NO_CONTENT)
 
+
+@api_view(['GET'])
+def movie_list_win_rate(request):
+    # movies = get_list_or_404(Movie, vote_average__gt=8)
+    # 매치에 포함된(win_movies 또는 lose_movies가 비어있지 않은) 영화들을 가져오기
+    movies = get_list_or_404(Movie, Q(movie_1__isnull=False) | Q(movie_2__isnull=False))
+    movies = list(set(movies))  # 중복 제거
+
+    serializer = MovieListSerializer(movies, many=True)
+    json_data = serializer.data
+    for data in json_data:
+        movie = Movie.objects.get(pk=data['movie_id'])
+        match_cnt = movie.movie_1.count() + movie.movie_2.count()
+        data['win_rate'] = movie.win_movies.count() / match_cnt
+    
+    json_data.sort(key=lambda x: [-x.get('win_rate'), -len(x.get('win_movies'))])
+    return Response(json_data)
