@@ -103,6 +103,7 @@ def match_vote(request, match_pk, movie_pk):
     # 이미 투표한 사용자
     else:
         print('이미 투표하셨습니다.')
+        return Response(status=status.HTTP_208_ALREADY_REPORTED)
     
     # movie_1, movie_2 각각의 득표수를 비교하여 두 영화의 승패 관계 갱신
     count_1 = match.movie_1_voters.count()  # movie_1 득표수

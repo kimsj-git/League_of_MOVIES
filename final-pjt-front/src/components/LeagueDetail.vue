@@ -1,6 +1,5 @@
 <template>
-    <div>  
-      <p>{{ match }}</p>    
+    <div>     
       <h2>Match Detail</h2>
       <img @click.stop="goDetail(firstMovie.movie_id)" :src="firstPoster" alt="IMG" style="width:40%;height:auto;">
       <img @click.stop="goDetail(secMovie.movie_id)" :src="secPoster" alt="IMG" style="width:40%;height:auto;">  
@@ -21,7 +20,7 @@
         <button @click="goVotes">투표하기</button>
       <hr>
       <h5>투표수</h5>
-      <p>{{ firstMovieVotersCount }} : {{ secMovieVotersCount }}</p>
+      <p>{{ match.movie_1_voters?.length }} : {{ this.match.movie_2_voters?.length }}</p>
       <hr>
       <h5>댓글</h5>
       <p>{{ comments.length }}개의 댓글이 있습니다.</p>
@@ -35,7 +34,8 @@
       <LeagueDetailComments
         v-for="comment in comments"
         :key="comment.id"
-        :comment="comment"/>
+        :comment="comment"
+        @delete-comment="deleteComment"/>
       <p @click.prevent="goBack()">뒤로가기</p>
     </div>
   </template>
@@ -78,12 +78,14 @@ export default {
     secPoster() {
         return POSTER_URL + this.secMovie.poster_path
     },
-    firstMovieVotersCount() {
-      return this.match?.movie_1_voters.length
-    },
-    secMovieVotersCount() {
-      return this.match?.movie_2_voters.length
-    },
+    // firstMovieVotersCount() {
+    //   if (this.match.movie_1_voters) {
+    //     return this.match.movie_1_voters.length
+    //   }
+    // },
+    // secMovieVotersCount() {
+    //   return this.match?.movie_2_voters?.length
+    // },
   },
   methods: {
     getMatchDetail() {
@@ -158,6 +160,21 @@ export default {
           console.log(err)
         })
     },
+		deleteComment(commentId) {
+		axios({
+			method:'delete',
+			url: `${MATCH_URL}/${Number(this.$route.params.match_pk)}/comments/${commentId}`,
+			headers: {
+			Authorization: `Token ${ this.$store.state.token }`
+			},
+		})
+			.then(() => {
+        this.getComments()
+			})
+			.catch((err) => {
+			console.log(err)
+			})
+		},
 
     voteMovie(movie_pk) {
       if (movie_pk === this.firstMovie.movie_pk) {
@@ -175,28 +192,22 @@ export default {
         }
       })
         .then((res) => {
-          console.log(res)
-          this.firstMovieVotersCount()
-          this.secMovieVotersCount()
-
+          if (res.status === 208) {
+            alert('͡° ͜ʖ ͡°,,,,,그대는 이미 투표에 참여했어')
+          } else (
+            this.getMatchDetail()
+          )
         })
         .catch((err) => {
           console.log(err)
         })
     }
-
   },
   created() {
     this.getMatchDetail()
     this.getMatchMovies()
     this.getComments()
-    this.saveParamsToSessionStorage()
   },
-  mounted() {
-    this.paramsData.match_pk = this.$route.params.match_pk,
-    this.paramsData.movie_1 = this.$route.params.movie_1,
-    this.paramsData.movie_2 = this.$route.params.movie_2
-  }
 }
 
 
