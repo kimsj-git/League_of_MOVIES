@@ -5,6 +5,7 @@ import NotFound404 from '@/views/NotFound404'
 import SignUpView from '@/views/SignUpView'
 import LogInView from '@/views/LogInView'
 import LogOutView from '@/views/LogOutView'
+import CreateMatch from '@/components/CreateMatch'
 
 Vue.use(VueRouter)
 
@@ -62,6 +63,11 @@ const routes = [
     path: '/latest',
     name: 'latest',
     component: () => import('../views/LatestMovieView.vue')
+  },
+  {
+    path: '/league/create-match',
+    name: 'CreateMatch',
+    component: CreateMatch
   },
 
 
