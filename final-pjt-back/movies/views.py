@@ -14,11 +14,6 @@ from django.db.models import Q
 from .serializers import MovieListSerializer, MovieSerializer, MatchListSerializer, MatchSerializer, CommentSerializer, MovieDetailSerializer
 from .models import Movie, Match, Comment
 
-import requests
-
-import os
-import json
-
 # Create your views here.
 @api_view(['GET', 'POST'])
 # @permission_classes([IsAuthenticated])
@@ -77,11 +72,12 @@ def match_list(request):
         return Response(serializer.data)
     
     elif request.method == 'POST':
+        # movie_1, movie_2 조합이 get_list_or_404(Match)에 존재하면 생성 막아야함
         serialzier = MatchSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
@@ -171,7 +167,7 @@ def comment_detail(request, match_pk, comment_pk):
 @api_view(['GET'])
 def movie_list_win_rate(request):
     # movies = get_list_or_404(Movie, vote_average__gt=8)
-    # 매치에 포함된(win_movies 또는 lose_movies가 비어있지 않은) 영화들을 가져오기
+    # 매치에 포함된(Match에서 movie_1 또는 movie_2로 가져왔을 때 비어있지 않은) 영화들을 가져오기
     movies = get_list_or_404(Movie, Q(movie_1__isnull=False) | Q(movie_2__isnull=False))
     movies = list(set(movies))  # 중복 제거
 
