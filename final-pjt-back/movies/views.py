@@ -9,6 +9,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from django.shortcuts import get_object_or_404, get_list_or_404
 from django.http.response import JsonResponse
+from django.contrib.auth import get_user_model
 from .serializers import MovieListSerializer, MovieSerializer, MatchListSerializer, MatchSerializer, CommentSerializer, MovieDetailSerializer
 from .models import Movie, Match, Comment
 
@@ -138,6 +139,7 @@ def match_vote(request, match_pk, movie_pk):
 
 @api_view(['GET', 'POST'])
 def comment_list(request, match_pk):
+    
     if request.method == 'GET':
         match = get_object_or_404(Match, pk=match_pk)
         comments = Comment.objects.filter(match=match)
@@ -145,26 +147,28 @@ def comment_list(request, match_pk):
         return Response(serializer.data)
     
     elif request.method == 'POST':
+        user = get_user_model().objects.get(pk=request.user.pk)
         match = get_object_or_404(Match, pk=match_pk)
         serializer = CommentSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            serializer.save(match=match)
+            serializer.save(match=match, user=user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 @api_view(['GET', 'PUT', 'DELETE'])
 def comment_detail(request, match_pk, comment_pk):
     comment = get_object_or_404(Comment, pk=comment_pk)
+    user = get_user_model().objects.get(pk=request.user.pk)
     match = get_object_or_404(Match, pk=match_pk)
     if request.method == 'GET':
         serializer = CommentSerializer(comment)
         return Response(serializer.data)
     
-    # 댓글 수정 기능: user 자동으로 들어가도록 수정 필요
     elif request.method == 'PUT':
         serializer = CommentSerializer(comment, data=request.data)
         if serializer.is_valid(raise_exception=True):
-            serializer.save(match=match)
+            serializer.save(match=match, user=user)
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
