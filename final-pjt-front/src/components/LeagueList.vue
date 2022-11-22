@@ -1,8 +1,8 @@
 <template>
 <div>
+  <h2>Movie League</h2>
+  <button @click.prevent="goMatchCreate()">매치 만들기!</button>
   <div class="container">
-    <h2>Movie League</h2>
-    <button @click="goMatchCreate">매치 만들기!</button>
     <!-- <CreateMatch/> -->
     <hr>
     <div>
@@ -31,10 +31,8 @@ export default {
       return this.$store.state.matches
     }
   },
-  method: {
+  methods: {
     goMatchCreate() {
-
-      console.log('클릭했음!!')
       this.$router.push({ name: 'CreateMatch' })
     },
   },

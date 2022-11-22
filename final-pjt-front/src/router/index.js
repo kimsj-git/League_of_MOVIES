@@ -67,7 +67,7 @@ const routes = [
   {
     path: '/league/create-match',
     name: 'CreateMatch',
-    component: CreateMatch
+    component: CreateMatch,
   },
 
 
