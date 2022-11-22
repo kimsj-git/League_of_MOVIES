@@ -3,7 +3,7 @@
       <h2>Movie Detail: {{movie?.title}}</h2>
       <img :src="poster" alt="IMG" style="width:40%;height:auto;"> 
       <p>{{ movie.overview }}</p>
-      <router-link :to="{ name: 'HomeView' }">뒤로가기</router-link>
+      <p @click.prevent="goBack()">뒤로가기</p>
     </div>
   </template>
   
@@ -35,7 +35,10 @@
             break
           }
         }
-      }
+      },
+      goBack() {
+        this.$router.go(-1)
+      },
     },
     created() {
       this.getMovieId(this.$route.params.id)

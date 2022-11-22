@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div>      
       <h2>Match Detail</h2>
       <img @click.stop="goDetail(firstMovie.movie_id)" :src="firstPoster" alt="IMG" style="width:40%;height:auto;">
       <img @click.stop="goDetail(secMovie.movie_id)" :src="secPoster" alt="IMG" style="width:40%;height:auto;">  
@@ -9,7 +9,7 @@
       <p>{{ match?.movie_1_voters.length }} : {{ match?.movie_2_voters.length }}</p>
       <hr>
       <h5>댓글</h5>
-      <p>{{ match?.comments_count }}개의 댓글이 있습니다.</p>
+      <p>{{ comments.length }}개의 댓글이 있습니다.</p>
 
       <form @submit.prevent="createComment">
         <label for="content">댓글: </label>
@@ -21,7 +21,7 @@
         v-for="comment in comments"
         :key="comment.id"
         :comment="comment"/>
-      <router-link :to="{ name: 'LeagueView' }">뒤로가기</router-link>
+      <p @click.prevent="goBack()">뒤로가기</p>
     </div>
   </template>
   
@@ -32,10 +32,16 @@ import axios from 'axios'
 const POSTER_URL = 'https://image.tmdb.org/t/p/original'
 const MATCH_URL = 'http://127.0.0.1:8000/api/v1/league'
 
+
 export default {
   name: 'LeagueDetail',
   components: {
     LeagueDetailComments
+  },
+  props: {
+    match_pk: String,
+    movie_1: String,
+    movie_2: String,
   },
   data() {
     return {
@@ -109,6 +115,9 @@ export default {
     goDetail(movie_id) {
       this.$router.push({ name: 'MovieDetail', params:{movie_id} })
     },
+    goBack() {
+      this.$router.go(-1)
+    },
     createComment() {
       let content = this.content
       axios({
@@ -121,18 +130,32 @@ export default {
       })
         .then(() => {
           this.getComments()
+          this.content = ''
         })
         .catch((err) => {
           console.log(err)
         })
+    },
+    saveParamsToSessionStorage() {
+      const match_pk = this.match_pk
+      this.$store.dispatch('saveParamsToSessionStorage', match_pk)
     }
+
   },
   created() {
     this.getMatchDetail()
     this.getMatchMovies()
     this.getComments()
+    this.saveParamsToSessionStorage()
+  },
+  mounted() {
+    this.paramsData.match_pk = this.$route.params.match_pk,
+    this.paramsData.movie_1 = this.$route.params.movie_1,
+    this.paramsData.movie_2 = this.$route.params.movie_2
   }
 }
+
+
 </script>
 
 
