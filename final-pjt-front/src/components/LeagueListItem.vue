@@ -42,7 +42,7 @@ export default {
   },
   methods: {
     goMatchDetail(match_pk, movie_1, movie_2) {
-      this.$router.push({ name: 'LeagueDetail', params:{match_pk, movie_1, movie_2} })
+      this.$router.push({ name: 'LeagueDetail', params:{match_pk, movie_1, movie_2}, props:true })
     },
     getMatchMovies() {
         const firstId = this.match.movie_1

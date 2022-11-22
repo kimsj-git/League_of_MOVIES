@@ -145,6 +145,10 @@ export default new Vuex.Store({
         .catch((err) => {
           console.log(err)
         })
+    },
+    saveParamsToSessionStorage(context, match_pk) {
+      const jsonParams = JSON.stringify(match_pk)
+      sessionStorage.setItem('params', jsonParams)
     }
   
   },
