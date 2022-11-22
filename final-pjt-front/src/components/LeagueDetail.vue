@@ -1,12 +1,27 @@
 <template>
-    <div>      
+    <div>  
+      <p>{{ match }}</p>    
       <h2>Match Detail</h2>
       <img @click.stop="goDetail(firstMovie.movie_id)" :src="firstPoster" alt="IMG" style="width:40%;height:auto;">
       <img @click.stop="goDetail(secMovie.movie_id)" :src="secPoster" alt="IMG" style="width:40%;height:auto;">  
-      <p>{{ firstMovie.title }} vs {{ secMovie.title }}</p>
+      <div class="d-flex justify-content-center">
+        <div>
+          <label for="movie1">{{ firstMovie.title }}</label>
+          <br>
+          <input @click="voteMovie(firstMovie.movie_id)" id="movie1" type="radio" name="selectMovie">
+        </div>
+        <p>  VS  </p>
+        <div>
+          <label for="movie2">{{ secMovie.title }}</label>
+          <br>
+          <input @click="voteMovie(secMovie.movie_id)" id="movie2" type="radio" name="selectMovie">
+        </div>
+      </div>
+      <br>
+        <button @click="goVotes">투표하기</button>
       <hr>
       <h5>투표수</h5>
-      <p>{{ match?.movie_1_voters.length }} : {{ match?.movie_2_voters.length }}</p>
+      <p>{{ firstMovieVotersCount }} : {{ secMovieVotersCount }}</p>
       <hr>
       <h5>댓글</h5>
       <p>{{ comments.length }}개의 댓글이 있습니다.</p>
@@ -50,6 +65,7 @@ export default {
       match: null,
       comments: null,
       content: null,
+      selectMoviePk: null,
     }
   },
   computed: {
@@ -61,6 +77,12 @@ export default {
     },
     secPoster() {
         return POSTER_URL + this.secMovie.poster_path
+    },
+    firstMovieVotersCount() {
+      return this.match?.movie_1_voters.length
+    },
+    secMovieVotersCount() {
+      return this.match?.movie_2_voters.length
     },
   },
   methods: {
@@ -136,9 +158,31 @@ export default {
           console.log(err)
         })
     },
-    saveParamsToSessionStorage() {
-      const match_pk = this.match_pk
-      this.$store.dispatch('saveParamsToSessionStorage', match_pk)
+
+    voteMovie(movie_pk) {
+      if (movie_pk === this.firstMovie.movie_pk) {
+        this.selectMoviePk = movie_pk
+      } else {
+        this.selectMoviePk = movie_pk
+      }
+    },
+    goVotes() {
+      axios({
+        method: 'post',
+        url: `${MATCH_URL}/${Number(this.$route.params.match_pk)}/${this.selectMoviePk}/`,
+        headers: {
+          Authorization: `Token ${ this.$store.state.token }`
+        }
+      })
+        .then((res) => {
+          console.log(res)
+          this.firstMovieVotersCount()
+          this.secMovieVotersCount()
+
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     }
 
   },
