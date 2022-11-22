@@ -21,5 +21,9 @@ export default {
 	props: {
 		comment: Object,
 	},
+	methods: {
+		// getUserName() 
+
+	}
 }
 </script>

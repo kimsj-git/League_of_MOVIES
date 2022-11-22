@@ -15,9 +15,27 @@ const routes = [
     component: HomeView,
   },
   {
-    path: '/league',
+    path: '/movie/:movie_id',
+    name: 'MovieDetail',
+    component: () => import('../components/MovieDetail.vue')
+  },
+  {
+    path: '/league/',
     name: 'LeagueView',
-    component: () => import(/* webpackChunkName: "about" */ '../views/LeagueView.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/LeagueView.vue'),
+    // 자식 라우터로 넣고 싶다면..
+    // children: [
+    //   {
+    //     path: ':match_pk',
+    //     name: 'LeagueDetail',
+    //     component: () => import('../components/LeagueDetail.vue')
+    //   },
+    // ]
+  },
+  {
+    path: '/league/:match_pk',
+    name: 'LeagueDetail',
+    component: () => import('../components/LeagueDetail.vue')
   },
   // 욕망기능...
   // {
@@ -45,16 +63,8 @@ const routes = [
     name: 'latest',
     component: () => import('../views/LatestMovieView.vue')
   },
-  {
-    path: 'movie/:id',
-    name: 'MovieDetail',
-    component: () => import('../components/MovieDetail.vue')
-  },
-  {
-    path: 'league/:id',
-    name: 'LeagueDetail',
-    component: () => import('../components/LeagueDetail.vue')
-  },
+
+
   {
     path: '/signup',
     name: 'SignUpView',

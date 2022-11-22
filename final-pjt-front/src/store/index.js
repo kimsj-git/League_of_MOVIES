@@ -18,6 +18,7 @@ export default new Vuex.Store({
     movies: [],
     latestMovies: [],
     matches: [],
+    username: '',
     token: null,
   },
   getters: {
@@ -38,8 +39,9 @@ export default new Vuex.Store({
     GET_MATCHES(state, matches) {
       state.matches = matches
     },
-    SAVE_TOKEN(state, token) {
+    SAVE_TOKEN(state, token, username) {
       state.token = token
+      state.username = username
       router.push({name: 'HomeView'})
     },
     REMOVE_TOKEN(state) {
@@ -125,7 +127,7 @@ export default new Vuex.Store({
         }
       })
         .then((res) => {
-          context.commit('SAVE_TOKEN', res.data.key)
+          context.commit('SAVE_TOKEN', res.data.key, res.data.username)
         })
         .catch((err) => {
           console.log(err)
