@@ -1,5 +1,12 @@
 <template>
-  <div @click.stop="goDetail(movie.movie_id)">
+  <v-card
+    @click.stop="goDetail(movie.movie_id)"
+    class="px-0 py-0"
+    max-width="400"
+  >
+    <v-img :src="poster" alt="IMG" :aspect-ratio="1/1.414"/>
+  </v-card>
+  <!-- <div @click.stop="goDetail(movie.movie_id)">
     <div class="flip-card">
       <div class="flip-card-inner">
         <div class="flip-card-front">
@@ -14,74 +21,73 @@
       </div>
     </div>
 
-  </div>
+  </div> -->
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
 
-const POSTER_URL = 'https://image.tmdb.org/t/p/original'
-const API_URL = 'http://127.0.0.1:8000/'
+const POSTER_URL = "https://image.tmdb.org/t/p/original";
+const API_URL = "http://127.0.0.1:8000/";
 
 export default {
-  name: 'MovieListItem',
-  components: {
-  },
+  name: "MovieListItem",
+  components: {},
   data() {
     return {
       isLiked: null,
-    }
+    };
   },
   props: {
-    movie: Object, 
+    movie: Object,
   },
   created() {
-    this.getLiked()
+    this.getLiked();
   },
   methods: {
     goDetail(movie_id) {
-      this.$router.push({ name: 'MovieDetail', params:{movie_id} })
+      this.$router.push({ name: "MovieDetail", params: { movie_id } });
     },
     getLiked() {
       axios({
-        method: 'get',
+        method: "get",
         url: `${API_URL}api/v1/movies/${Number(this.movie.movie_id)}/likes/`,
         headers: {
-          Authorization: `Token ${ this.$store.state.token }`
-        }
+          Authorization: `Token ${this.$store.state.token}`,
+        },
       })
         .then((res) => {
-          this.isLiked = res.data.is_liked
+          this.isLiked = res.data.is_liked;
         })
         .catch((err) => {
-          console.log(err)
-        })
+          console.log(err);
+        });
     },
     movieLikes(movie_id) {
       axios({
-        method: 'post',
+        method: "post",
         url: `${API_URL}api/v1/movies/${Number(movie_id)}/likes/`,
         headers: {
-          Authorization: `Token ${ this.$store.state.token }`
-        }
+          Authorization: `Token ${this.$store.state.token}`,
+        },
       })
         .then((res) => {
-          console.log(res)
-          this.isLiked = res.data.is_liked
-          console.log(this.isLiked)
+          console.log(res);
+          this.isLiked = res.data.is_liked;
+          console.log(this.isLiked);
         })
         .catch((err) => {
-          console.log(err)
-        })
-    }
+          console.log(err);
+        });
+    },
   },
   computed: {
     poster() {
       //  console.log(this.movie.pk)
-      return POSTER_URL + this.movie.poster_path
-    }, 
-  }
-}
+      return POSTER_URL + this.movie.poster_path;
+    },
+  },
+};
 </script>
 
 
@@ -111,7 +117,8 @@ export default {
 }
 
 /* Position the front and back side */
-.flip-card-front, .flip-card-back {
+.flip-card-front,
+.flip-card-back {
   position: absolute;
   width: 100%;
   height: 100%;
