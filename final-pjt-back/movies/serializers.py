@@ -41,9 +41,15 @@ class MatchSerializer(serializers.ModelSerializer):
 
 
 class MovieDetailSerializer(serializers.ModelSerializer):
+    class MovieSimpleSerializer(serializers.ModelSerializer):
+    
+        class Meta:
+            model = Movie
+            fields = '__all__'
+
     comments = CommentSerializer(many=True, read_only=True)
-    win_movies = MovieListSerializer(many=True, read_only=True)
-    lose_movies = MovieListSerializer(many=True, read_only=True)
+    win_movies = MovieSimpleSerializer(many=True, read_only=True)
+    lose_movies = MovieSimpleSerializer(many=True, read_only=True)
 
     class Meta:
         model = Movie

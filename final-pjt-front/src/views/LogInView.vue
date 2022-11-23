@@ -11,7 +11,7 @@
         <input type="submit" value="logIn">
       </form>
     </div>
-  </template>
+</template>
   
   <script>
   export default {
