@@ -17,11 +17,11 @@
 
       <nav class="navbar shrink mt-1 hidden-sm-and-down">
         <router-link to="/">
-          <v-btn depressed>Home</v-btn>
+          <v-btn depressed>League</v-btn>
         </router-link>
 
-        <router-link to="/league">
-          <v-btn depressed>League</v-btn>
+        <router-link to="/ranking">
+          <v-btn depressed>Ranking</v-btn>
         </router-link>
         
         <router-link to="/mypage">

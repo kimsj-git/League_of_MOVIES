@@ -1,11 +1,18 @@
 <template>
   <div @click.stop="goMatchDetail(match.pk, match.movie_1, match.movie_2)">
-    <!-- <h4>{{ match }}</h4> -->
-    <br />
-    <img :src="firstPoster" alt="IMG" style="width: 30%; height: 43%" />
-    <img :src="secPoster" alt="IMG" style="width: 30%; height: 43%" />
-    <br />
-    <h4>{{ firstMovie.title }} vs {{ secMovie.title }}</h4>
+    <v-row rows="auto">
+      <v-col class="row justify-content-center">
+        <v-card class="px-0 py-0 m-3" max-width="300">
+          <v-img :src="firstPoster" alt="IMG" :aspect-ratio="1 / 1.414" />
+        </v-card>
+        <v-card class="px-0 py-0 m-3" max-width="300">
+          <v-img :src="secPoster" alt="IMG" :aspect-ratio="1 / 1.414" />
+        </v-card>
+      </v-col>
+      <!-- <v-col class="row justify-content-center">
+      </v-col> -->
+      <h4>{{ firstMovie.title }} vs {{ secMovie.title }}</h4>
+    </v-row>
     <hr />
   </div>
 </template>

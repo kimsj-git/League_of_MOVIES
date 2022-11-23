@@ -11,7 +11,7 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
+    path: '/ranking',
     name: 'HomeView',
     component: HomeView,
   },
@@ -21,7 +21,7 @@ const routes = [
     component: () => import('../components/MovieDetail.vue')
   },
   {
-    path: '/league/',
+    path: '/',
     name: 'LeagueView',
     component: () => import(/* webpackChunkName: "about" */ '../views/LeagueView.vue'),
     // 자식 라우터로 넣고 싶다면..

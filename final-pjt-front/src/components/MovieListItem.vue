@@ -4,7 +4,7 @@
     class="px-0 py-0"
     max-width="400"
   >
-    <v-img :src="poster" alt="IMG" :aspect-ratio="1/1.414"/>
+    <v-img :src="poster" alt="IMG" :aspect-ratio="1 / 1.414" />
   </v-card>
   <!-- <div @click.stop="goDetail(movie.movie_id)">
     <div class="flip-card">
