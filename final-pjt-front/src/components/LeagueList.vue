@@ -1,7 +1,9 @@
 <template>
 <div>
   <h2>Movie League</h2>
-  <button @click.prevent="goMatchCreate()">매치 만들기!</button>
+  <v-btn @click.prevent="goMatchCreate()">
+    <v-icon>mdi-fencing</v-icon>매치 만들기 <v-icon>mdi-fencing</v-icon>
+  </v-btn>
   <div class="container">
     <!-- <CreateMatch/> -->
     <hr>
