@@ -15,12 +15,12 @@
     <!-- 카드리스트에서 영화 두개 선택 -->
     <v-container flex>
       <v-row rows=auto>
-        <v-col class="row">
+        <v-col class="row p-0 justify-content-center">
           <CreateMatchItem
           @click.prevent="getMatchMovies"
           class="m-2"
           :class="grid-selected-movie"
-          style="width: 5rem;"
+          style="width: 10rem;"
           v-for="movie in movieDataBase"
           :key="movie.movie_id"
           :movie="movie"/>
