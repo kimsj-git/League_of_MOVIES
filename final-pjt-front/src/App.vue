@@ -49,7 +49,7 @@
       <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
     </v-app-bar>
 
-    <v-navigation-drawer v-model="drawer" absolute temporary right>
+    <v-navigation-drawer v-model="drawer" temporary right fixed>
       <v-list nav dense>
         <v-list-item-group
           v-model="group"
