@@ -51,8 +51,8 @@ const routes = [
   },
   {
     path: '/match-ranking',
-    name: 'match-ranking',
-    component: () => import('../components/MatchRanking.vue')
+    name: 'MatchRankingView',
+    component: () => import('../views/MatchRankingView.vue')
   },
   {
     path: '/vote-ranking',

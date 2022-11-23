@@ -172,7 +172,7 @@ def movie_list_win_rate(request):
     movies = get_list_or_404(Movie, Q(movie_1__isnull=False) | Q(movie_2__isnull=False))
     movies = list(set(movies))  # 중복 제거
 
-    serializer = MovieListSerializer(movies, many=True)
+    serializer = MovieDetailSerializer(movies, many=True)
     json_data = serializer.data
     for data in json_data:
         movie = Movie.objects.get(pk=data['movie_id'])
