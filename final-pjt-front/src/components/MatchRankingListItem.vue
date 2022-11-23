@@ -23,7 +23,7 @@
     v-for="losemovie in movie.win_movies" 
     :key="losemovie.movie_id"
     @click.stop="goToMatch()">
-      <p>{{ losemovie }}</p>
+      <!-- <p>{{ losemovie }}</p> -->
       <p>{{ losemovie.title }} <br>
         <img :src="'https://image.tmdb.org/t/p/original' + losemovie.poster_path" alt="IMG" style="width:auto;height:250px;">
       </p>
