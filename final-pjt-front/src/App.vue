@@ -28,11 +28,11 @@
           <v-btn depressed>My Page</v-btn>
         </router-link>
         
-        <router-link to="/signup">
+        <!-- <router-link to="/signup">
           <v-btn depressed>signup</v-btn>
-        </router-link>
+        </router-link> -->
         
-        <router-link to="/login">
+        <router-link to="/login" v-if="!isLogin">
           <v-btn depressed>Login</v-btn>
         </router-link>
         
@@ -40,6 +40,7 @@
           class="logoutButton"
           @click.native="logout"
           to="/logout"
+          v-if="isLogin"
         >
           <v-btn depressed>logout</v-btn>
         </router-link>

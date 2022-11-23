@@ -7,12 +7,10 @@
   <div class="container">
     <!-- <CreateMatch/> -->
     <hr>
-    <div>
       <LeagueListItem
         v-for="match in matches"
         :key="match.id"
         :match="match"/>
-    </div>
   </div>
 </div>
 </template>
