@@ -1,8 +1,8 @@
 <template>
     <div>     
       <h2>Match Detail</h2>
-      <img @click.stop="goDetail(firstMovie.movie_id)" :src="firstPoster" alt="IMG" style="width:40%;height:auto;">
-      <img @click.stop="goDetail(secMovie.movie_id)" :src="secPoster" alt="IMG" style="width:40%;height:auto;">  
+      <img @click.stop="goDetail(firstMovie.movie_id, match_pk)" :src="firstPoster" alt="IMG" style="width:40%;height:auto;">
+      <img @click.stop="goDetail(secMovie.movie_id, match_pk)" :src="secPoster" alt="IMG" style="width:40%;height:auto;">  
       <div class="d-flex justify-content-center">
         <div>
           <label for="movie1">{{ firstMovie.title }}</label>
@@ -35,7 +35,8 @@
         v-for="comment in comments"
         :key="comment.id"
         :comment="comment"
-        @delete-comment="deleteComment"/>
+        @delete-comment="deleteComment"
+        @modify-comment="modifyComment"/>
       <p @click.prevent="goBack()">뒤로가기</p>
     </div>
   </template>
@@ -136,8 +137,8 @@ export default {
           console.log(err)
         })
     },
-    goDetail(movie_id) {
-      this.$router.push({ name: 'MovieDetail', params:{movie_id} })
+    goDetail(movie_id, match_pk) {
+      this.$router.push({ name: 'LeagueMovieDetail', params:{match_pk, movie_id}, props: true })
     },
     goBack() {
       this.$router.go(-1)
@@ -160,10 +161,26 @@ export default {
           console.log(err)
         })
     },
+    modifyComment(commentId, modifyContent) {
+      axios({
+        method:'put',
+        url: `${MATCH_URL}/${Number(this.$route.params.match_pk)}/comments/${commentId}/`,
+        headers: {
+          Authorization: `Token ${ this.$store.state.token }`
+        },
+        data: { "content" : modifyContent }
+      })
+        .then(() => {
+          this.getComments()
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
 		deleteComment(commentId) {
 		axios({
 			method:'delete',
-			url: `${MATCH_URL}/${Number(this.$route.params.match_pk)}/comments/${commentId}`,
+			url: `${MATCH_URL}/${Number(this.$route.params.match_pk)}/comments/${commentId}/`,
 			headers: {
 			Authorization: `Token ${ this.$store.state.token }`
 			},

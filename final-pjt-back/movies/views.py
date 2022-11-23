@@ -73,7 +73,9 @@ def match_list(request):
     
     elif request.method == 'POST':
         # movie_1, movie_2 조합이 get_list_or_404(Match)에 존재하면 생성 막아야함
-        serialzier = MatchSerializer(data=request.data)
+        user = get_user_model().objects.get(pk=request.user.pk).pk
+        print(user)
+        serializer = MatchSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)

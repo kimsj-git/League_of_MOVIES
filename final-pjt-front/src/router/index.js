@@ -38,6 +38,11 @@ const routes = [
     name: 'LeagueDetail',
     component: () => import('../components/LeagueDetail.vue')
   },
+  {
+    path: '/league/:match_pk/:movie_id',
+    name: 'LeagueMovieDetail',
+    component: () => import('../components/LeagueMovieDetail.vue')
+  },
   // 욕망기능...
   // {
   //   path: '/worldcup',
@@ -57,7 +62,7 @@ const routes = [
   {
     path: '/vote-ranking',
     name: 'vote-ranking',
-    component: () => import('../components/VoteRanking.vue')
+    component: () => import('../views/VoteRankingView.vue')
   },
   {
     path: '/latest',

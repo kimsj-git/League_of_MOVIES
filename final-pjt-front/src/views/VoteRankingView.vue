@@ -6,13 +6,19 @@
       <router-link to="/latest">최신영화</router-link>
     </nav>
     <router-view/>
-    <h1>득표순위</h1>
+    <VoteRankingList/>
   </div>
 </template>
 
 <script>
+
+import VoteRankingList from '@/components/VoteRankingList'
+
 export default {
-  name: 'VoteRanking'
+  name: 'MatchRankingView',
+  components: {
+    VoteRankingList
+  }
 }
 </script>
 
