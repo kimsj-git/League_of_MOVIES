@@ -6,19 +6,19 @@
     </v-btn>
     <hr>
     <v-carousel v-model="model">
-      <v-carousel-item v-for="(match, i) in matches" :key="match.pk">
-        <v-sheet :color="color" height="100%" tile>
+      <v-carousel-item v-for="(match, i) in top3matches" :key="match.pk">
+        <v-sheet height="100%" tile>
           <v-row class="fill-height" align="center" justify="center">
-            {{ i + 1 }}번째 매치
+            <h5>TOP {{ i + 1 }}</h5>
             <LeagueListItem :match="match" />
           </v-row>
         </v-sheet>
       </v-carousel-item>
     </v-carousel>
 
-    <!-- <v-container>
-      <LeagueListItem v-for="match in matches" :key="match.id" :match="match" />
-    </v-container> -->
+    <v-container>
+      <LeagueListItem v-for="match in otherMatches" :key="match.id" :match="match" />
+    </v-container>
   </div>
 </template>
 
@@ -31,12 +31,7 @@ export default {
   data() {
     return {
       model: 0,
-      colors: [
-        "primary", 
-        "secondary", 
-        "yellow darken-2", 
-        "red", 
-        "orange"],
+
     };
   },
   components: {
@@ -47,6 +42,12 @@ export default {
     matches() {
       // console.log(this.$store.state.movies)
       return this.$store.state.matches;
+    },
+    top3matches() {
+      return this.$store.state.matches.slice(0, 3)
+    },
+    otherMatches() {
+      return this.$store.state.matches.slice(3)
     },
   },
   methods: {
