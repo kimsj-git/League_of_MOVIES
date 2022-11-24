@@ -37,12 +37,13 @@
           </form>
 
           <LeagueDetailComments
+            style="color: white; text-align:left;"
             v-for="comment in comments"
             :key="comment.id"
             :comment="comment"
             @delete-comment="deleteComment"
             @modify-comment="modifyComment"/>
-          <p @click.prevent="goBack()">뒤로가기</p>
+          <p style="color: white;" @click.prevent="goBack()">뒤로가기</p>
         </v-col>
       </v-row>
     </v-container>

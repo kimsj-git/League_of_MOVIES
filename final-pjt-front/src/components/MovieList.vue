@@ -1,6 +1,6 @@
 <template>
   <v-container flex>
-    <h2>인기 영화</h2>
+    <h2 style="color: white;">인기 영화</h2>
     <v-row rows="auto">
       <v-col class="row justify-content-center">
         <MovieListItem

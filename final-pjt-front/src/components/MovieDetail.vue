@@ -4,11 +4,15 @@
       <v-container class="text-left">
         <v-row>
           <h2>{{ movie?.title }}</h2>
+          <hr>
           <v-col>
             <MovieCard :movie="movie" />
           </v-col>
           <v-col>
+            <hr>
+            <h4>줄거리</h4>
             <p>{{ movie.overview }}</p>
+            <hr>
             <p>평점: {{ movie.vote_average }}</p>
             <!-- <MovieDetailGenres
             v-for="genre in movie.genres" 
@@ -16,6 +20,7 @@
             :genre="genre"/> -->
           </v-col>
         </v-row>
+        <hr>
         <p class="text-right" @click.prevent="goBack()">뒤로가기</p>
       </v-container>
     </v-card>

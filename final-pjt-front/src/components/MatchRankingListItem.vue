@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <br>
     <v-row>
       <v-col class="col-5">
         <h2 style="color: white;">{{ index + 1 }}위</h2>
@@ -33,6 +34,7 @@
             /> -->
       </v-col>
     </v-row>
+    <hr>
   </v-container>
 </template>
 

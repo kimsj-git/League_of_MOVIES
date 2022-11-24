@@ -2,9 +2,10 @@
 	<div>
 		<!-- <p>{{ comment }}</p> -->
 		<div v-if="!isModifying">
+			<hr>
 			<p>작성자: {{ comment?.user.username }}</p>
 			<p>내용: {{ comment?.content }}</p>
-			<p>작성시각: {{ comment?.created_at }}</p>
+			<p>작성일: {{ comment?.created_at.substring(0, 10) }}</p>
 			<v-btn @click.prevent="modifyComment">수정</v-btn>
 			<v-btn @click.prevent="deleteComment">삭제</v-btn>
 		</div>
@@ -18,7 +19,7 @@
 				id="modifyContent" 
 				cols="30" rows="3"
 				></textarea>
-				<input @click="revComment(modifyContent)" value="작성">
+				<input style="color: white;" @click="revComment(modifyContent)" value="수정">
 			</form>
 		</div> <br>
 
