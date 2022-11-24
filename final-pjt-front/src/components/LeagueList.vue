@@ -1,11 +1,8 @@
 <template>
   <div>
     <h2>Movie League</h2>
-    <v-btn @click.prevent="goMatchCreate()">
-      <v-icon>mdi-fencing</v-icon>START MATCH <v-icon>mdi-fencing</v-icon>
-    </v-btn>
     <hr>
-    <v-carousel v-model="model">
+    <v-carousel v-model="model" height="100%" continuous>
       <v-carousel-item v-for="(match, i) in top3matches" :key="match.pk">
         <v-sheet height="100%" tile>
           <v-row class="fill-height" align="center" justify="center">
@@ -15,7 +12,11 @@
         </v-sheet>
       </v-carousel-item>
     </v-carousel>
-
+    <br>
+    <h3>Create new match here!</h3>
+    <v-btn @click.prevent="goMatchCreate()">
+      <v-icon>mdi-fencing</v-icon>START MATCH <v-icon>mdi-fencing</v-icon>
+    </v-btn>
     <v-container style="width: 60%;">
       <LeagueListItem v-for="match in otherMatches" :key="match.id" :match="match" />
     </v-container>
