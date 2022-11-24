@@ -20,7 +20,7 @@
           <v-btn depressed>League</v-btn>
         </router-link>
 
-        <router-link to="/ranking">
+        <router-link to="/match-ranking">
           <v-btn depressed>Ranking</v-btn>
         </router-link>
         
