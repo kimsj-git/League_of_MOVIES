@@ -12,7 +12,7 @@
             class="d-flex align-items-end"
             v-for="losemovie in movie.win_movies"
             :key="losemovie.movie_id"
-            @click.stop="goToMatch()"
+          
           >
             <img
               :src="
@@ -21,6 +21,7 @@
               alt="IMG"
               style="width: auto; height: 250px"
               class="rounded-xl"
+              @click.native.stop="goDetail(losemovie.movie_id)"
             />
           </v-col>
         </v-row>

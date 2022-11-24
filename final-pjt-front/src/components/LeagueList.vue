@@ -1,5 +1,6 @@
 <template>
   <div>
+    <br>
     <h2>Movie League</h2>
     <hr>
     <v-carousel v-model="model" height="100%" continuous>
