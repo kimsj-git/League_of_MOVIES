@@ -1,19 +1,21 @@
 <template>
-  <div>
-    <h2>Movie League</h2>
-    <hr>
-    <v-carousel v-model="model" height="100%" continuous>
+    <div
+    :style="{'background-image': 'url()'}"
+  >
+    <h2 style="color: white;">Movie League</h2>
+    <v-carousel v-model="model" height="100%" continuous hide-delimiter-background>
       <v-carousel-item v-for="(match, i) in top3matches" :key="match.pk">
         <v-sheet height="100%" tile>
           <v-row class="fill-height" align="center" justify="center">
-            <h5>TOP {{ i + 1 }}</h5>
+            <!-- <h5>TOP {{ i + 1 }}</h5> -->
             <LeagueListItem :match="match" />
+            {{i}}
           </v-row>
         </v-sheet>
       </v-carousel-item>
     </v-carousel>
     <br>
-    <h3>Create new match here!</h3>
+    <h3 style="color: white;">Create new match here!</h3>
     <v-btn @click.prevent="goMatchCreate()">
       <v-icon>mdi-fencing</v-icon>START MATCH <v-icon>mdi-fencing</v-icon>
     </v-btn>

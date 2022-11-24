@@ -1,6 +1,7 @@
 <template>
   <div>
-    <h2>매치를 생성하세요</h2>
+    <br>
+    <h2 style="color: white;">매치를 생성하세요</h2>
     <!-- 2개 선택 후 submit하면 요청 보내기 -->
     <div 
     class="bg-image p-5 shadow-1-strong mb-5"
@@ -160,7 +161,7 @@ export default {
 #select-movie{
   width: 30%;
   height: 20rem;
-  border: solid black;
+  /* border: solid black; */
 }
 
 .grid-selected-movie{

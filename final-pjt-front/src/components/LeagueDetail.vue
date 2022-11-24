@@ -1,39 +1,39 @@
 <template>
     <v-container>     
-      <h3>{{ firstMovie.title }} VS {{ secMovie.title }}</h3>
+      <h3 style="color: white;">{{ firstMovie.title }} VS {{ secMovie.title }}</h3>
       <v-row>
         <v-col>
           <img @click.stop="goDetail(firstMovie.movie_id, match_pk)" :src="firstPoster" alt="IMG" style="width:40%;height:auto;">
           <img @click.stop="goDetail(secMovie.movie_id, match_pk)" :src="secPoster" alt="IMG" style="width:40%;height:auto;">  
           <div class="d-flex justify-content-center">
             <div>
-              <label for="movie1">{{ firstMovie.title }}</label>
+              <label for="movie1" style="color: white;">{{ firstMovie.title }}</label>
               <br>
               <input @click="voteMovie(firstMovie.movie_id)" id="movie1" type="radio" name="selectMovie">
             </div>
             <p>  VS  </p>
             <div>
-              <label for="movie2">{{ secMovie.title }}</label>
+              <label for="movie2" style="color: white;">{{ secMovie.title }}</label>
               <br>
               <input @click="voteMovie(secMovie.movie_id)" id="movie2" type="radio" name="selectMovie">
             </div>
           </div>
           <br>
-            <button @click="goVotes">투표하기</button>
+            <v-btn @click="goVotes">투표하기</v-btn>
           <hr>
-          <h5>투표수</h5>
-          <p>{{ match.movie_1_voters?.length }} : {{ this.match.movie_2_voters?.length }}</p>
+          <h5 style="color: white;">투표수</h5>
+          <p style="color: white;">{{ match.movie_1_voters?.length }} : {{ this.match.movie_2_voters?.length }}</p>
           <hr>
         </v-col>
         
         <v-col>
-          <h5>댓글</h5>
-          <p>{{ comments.length }}개의 댓글이 있습니다.</p>
+          <!-- <h5>댓글</h5> -->
+          <p style="color: white;">{{ comments.length }}개의 댓글이 있습니다.</p>
 
           <form @submit.prevent="createComment">
-            <label for="content">댓글: </label>
+            <label style="color: white;" for="content">댓글 작성 </label>
             <v-textarea outlined v-model="content" id="content" cols="30" rows="3" label="여기에 댓글 다셔야 합니다."></v-textarea>
-            <input type="submit" value="작성">
+            <v-btn><input type="submit" value="작성"></v-btn>
           </form>
 
           <LeagueDetailComments

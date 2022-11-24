@@ -1,6 +1,7 @@
 <template>
   <v-container>
-    <h2>Match Ranking</h2>
+    <br>
+    <h2 style="color: white;">Match Ranking</h2>
     <MatchRankingListItem
       v-for="(movie, index) in rankingMovies"
       :key="movie.movie_id"
