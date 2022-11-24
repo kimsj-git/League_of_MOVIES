@@ -11,8 +11,14 @@
 		<div v-if="isModifying">
 			<form @submit.prevent="createComment">
 				<label for="modifyContent">댓글: </label>
-				<textarea :value="comment.content" @input="modifyContent=$event.target.value" id="modifyContent" cols="30" rows="3"></textarea>
-				<input @click="revComment" value="작성">
+				<textarea 
+				class="form-control" 
+				:value="comment.content" 
+				@input="modifyContent=$event.target.value" 
+				id="modifyContent" 
+				cols="30" rows="3"
+				></textarea>
+				<input @click="revComment(modifyContent)" value="작성">
 			</form>
 		</div> <br>
 		<button @click.prevent="deleteComment">X</button>
@@ -57,6 +63,7 @@ export default {
 		// 	console.log(err)
 		// 	})
 		// },
+
 		deleteComment : function() {
 			let commentId = this.comment.id
 			this.$emit('delete-comment', commentId)

@@ -19,7 +19,6 @@
           <CreateMatchItem
           @select-match-movie="selectMatchMovie"
           class="m-2"
-          :class="[{ active : isSelected }, 'grid-selected-movie']"
           style="width: 10rem;"
           v-for="movie in movieDataBase"
           :key="movie.movie_id"
@@ -56,11 +55,11 @@ export default {
     movieDataBase() {
       return this.$store.state.movies
     },
-    newMatchPk() {
-      const matchDB = this.$store.state.matches
-      const latestIndex = this.$store.state.matches.length - 1
-      return matchDB[latestIndex].pk + 1;
-    },
+    // newMatchPk() {
+    //   const matchDB = this.$store.state.matches
+    //   const latestIndex = this.$store.state.matches.length - 1
+    //   return matchDB[latestIndex].pk + 1;
+    // },
     firstPoster() {
       //  console.log(this.movie.pk)
       return POSTER_URL + this.firstMovie.poster_path;
@@ -124,10 +123,16 @@ export default {
         }
         })
           .then((res) => {
-            console.log(res)
+            const newMatchPk = res.data.id
             // 생성된 match detail페이지 라우팅
-            // this.$router.push({ path: `/league/${Number(this.newMatchPk)}` })
-            this.$router.push({ name: 'LeagueView' })
+            this.$router.push({ 
+              path: `/league/${Number(newMatchPk)}`, 
+              params: { newMatchPk, movie_1, movie_2, }, 
+              props: true, }),
+            console.log(newMatchPk)
+            console.log(movie_1)
+            console.log(movie_2)
+            // this.$router.push({ name: 'LeagueView' })
           })
           .catch((err) => {
             console.log(err)
@@ -147,7 +152,7 @@ export default {
   border: solid black;
 }
 
-#grid-selected-movie{
+.grid-selected-movie{
   border: solid gold;
 }
 </style>

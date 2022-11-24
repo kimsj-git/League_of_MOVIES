@@ -90,7 +90,7 @@ def match_list(request):
         # for match in matches:
         #     if set(match.movie_1.pk, match.movie_2.pk) == set(request.data.???):
         #         pass
-        serialzier = MatchSerializer(data=request.data)
+        serializer = MatchSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
