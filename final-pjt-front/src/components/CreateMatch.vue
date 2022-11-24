@@ -115,7 +115,7 @@ export default {
           url: `${MATCH_URL}`,
           data: {
             // views.py에서 user.pk값이 자동으로 안들어가는거 고쳐야함
-            "user": 1,
+            // "user": 1,
             "movie_1": movie_1,
             "movie_2": movie_2, 
           },

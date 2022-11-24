@@ -38,6 +38,7 @@ class MatchSerializer(serializers.ModelSerializer):
     class Meta:
         model = Match
         fields = '__all__'
+        read_only_fields = ('user',)
 
 
 class MovieDetailSerializer(serializers.ModelSerializer):
