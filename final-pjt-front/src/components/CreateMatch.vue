@@ -8,19 +8,22 @@
     background-size:cover;
     width:100%;height:100%;"
     >
-      <form
+      <!-- <form
       @submit.prevent="createMatch" class="row justify-content-around"
-      >
+      > -->
+      <div class="row justify-content-around">
         <div id="select-movie">
           <img v-if="firstMovie" :src="firstPoster" alt="movie1" style="width: 100%; height: 100%; object-fit:scale-down;">
         </div>
         <div id="select-movie">
           <img v-if="secMovie" :src="secPoster" alt="movie2" style="width: 100%; height: 100%; object-fit:scale-down;">
         </div>
-        <input type="submit" value="매치 시작!">
-      </form>
+        <!-- <input type="submit" value="매치 시작!">
+      </form> -->
+        
+      </div>
     </div>
-
+    <v-btn @click="createMatch">매치 시작!</v-btn>
     <!-- 카드리스트에서 영화 두개 선택 -->
     <v-container flex>
       <v-row rows=auto>
@@ -35,7 +38,6 @@
         </v-col>
       </v-row>
     </v-container>
-
 
   </div>
 </template>
