@@ -77,22 +77,15 @@ def match_list(request):
             # voters_diff = abs(match.movie_1_voters.count() - match.movie_2_voters.count())
             data['voters_cnt'] = voters_cnt
             # data['voters_diff'] = voters_diff
-            print(data.get('voters_cnt'))
         json_data.sort(key=lambda x: [-x.get('voters_cnt')])
-        # print(json_data)
         return Response(serializer.data)
     
     elif request.method == 'POST':
-        '''
-        movie_1, movie_2 조합이 get_list_or_404(Match)에 존재하면 생성 막아야함
-        '''
-        # matches = get_list_or_404(Match)
-        # for match in matches:
-        #     if set(match.movie_1.pk, match.movie_2.pk) == set(request.data.???):
-        #         pass
-        serialzier = MatchSerializer(data=request.data)
+        user = get_user_model().objects.get(pk=request.user.pk)
+        data = request.data
+        serializer = MatchSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            serializer.save()
+            serializer.save(user=user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -119,7 +112,6 @@ def match_vote(request, match_pk, movie_pk):
             match.movie_2_voters.add(request.user)
     # 이미 투표한 사용자
     else:
-        print('이미 투표하셨습니다.')
         return Response(status=status.HTTP_208_ALREADY_REPORTED)
     
     # movie_1, movie_2 각각의 득표수를 비교하여 두 영화의 승패 관계 갱신
