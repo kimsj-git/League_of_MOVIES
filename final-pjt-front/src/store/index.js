@@ -42,7 +42,7 @@ export default new Vuex.Store({
     SAVE_TOKEN(state, token, username) {
       state.token = token
       state.username = username
-      router.push({name: 'HomeView'})
+      router.push({name: 'LeagueView'})
     },
     REMOVE_TOKEN(state) {
       localStorage.clear()
