@@ -18,8 +18,10 @@
         @click.native.stop="movieLikes(movie.movie_id)"
         icon
         fab
-        style="position: absolute; bottom: 0px; right: 0px"
+        style="position: absolute; bottom: 0px; right: 0px;"
         depressed
+        x-large
+        class="like-btn"
       >
         <v-icon v-if="!isLiked" color="red darken-2">mdi-heart-outline</v-icon>
         <v-icon v-if="isLiked" color="red darken-2">mdi-heart</v-icon>
@@ -39,7 +41,7 @@ export default {
   data() {
     return {
       card: this.movie,
-      isLiked: this.movie.is_liked,
+      isLiked: null,
     };
   },
   props: {
@@ -74,6 +76,24 @@ export default {
           console.log(err);
         });
     },
+    getLiked() {
+      axios({
+        method: "get",
+        url: `${API_URL}api/v1/movies/${Number(this.movie.movie_id)}/likes/`,
+        headers: {
+          Authorization: `Token ${this.$store.state.token}`,
+        },
+      })
+        .then((res) => {
+          this.isLiked = res.data.is_liked;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+  },
+  created() {
+    this.getLiked();
   },
 };
 </script>
@@ -83,4 +103,11 @@ export default {
   background-color: rgba(#FFF, 0.8)
   >.v-card__text
     color: #000
+
+</style>
+
+<style>
+.like-btn::before {
+  display: none;
+}
 </style>
