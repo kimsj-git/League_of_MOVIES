@@ -48,7 +48,7 @@ export default {
       return this.$store.state.matches.slice(0, 3)
     },
     otherMatches() {
-      return this.$store.state.matches.slice(3)
+      return this.$store.state.matches.slice(3).reverse()
     },
   },
   methods: {
