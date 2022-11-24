@@ -2,6 +2,8 @@
   <div class="mypage">
     <h1>This is an account page</h1>
     {{ profile }}
+    <hr>
+    <h3>그대의 이름은.......{{ profile.username }}</h3>
   </div>
 </template>
 

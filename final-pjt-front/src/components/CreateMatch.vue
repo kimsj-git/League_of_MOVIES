@@ -2,15 +2,24 @@
   <div>
     <h2>매치를 생성하세요</h2>
     <!-- 2개 선택 후 submit하면 요청 보내기 -->
-    <form @submit.prevent="createMatch" class="row justify-content-around">
-      <div id="select-movie">
-        <img v-if="firstMovie" :src="firstPoster" alt="movie1" style="width: 100%; height: 100%; object-fit:scale-down;">
-      </div>
-      <div id="select-movie">
-        <img v-if="secMovie" :src="secPoster" alt="movie2" style="width: 100%; height: 100%; object-fit:scale-down;">
-      </div>
-      <input type="submit" value="매치 시작!">
-    </form>
+    <div 
+    class="bg-image p-5 shadow-1-strong mb-5"
+    style="background-image: url('https://i.pinimg.com/564x/98/24/9c/98249ca692cd5f9e364d6fe5d7f19a72.jpg');
+    background-size:cover;
+    width:100%;height:100%;"
+    >
+      <form
+      @submit.prevent="createMatch" class="row justify-content-around"
+      >
+        <div id="select-movie">
+          <img v-if="firstMovie" :src="firstPoster" alt="movie1" style="width: 100%; height: 100%; object-fit:scale-down;">
+        </div>
+        <div id="select-movie">
+          <img v-if="secMovie" :src="secPoster" alt="movie2" style="width: 100%; height: 100%; object-fit:scale-down;">
+        </div>
+        <input type="submit" value="매치 시작!">
+      </form>
+    </div>
 
     <!-- 카드리스트에서 영화 두개 선택 -->
     <v-container flex>
@@ -123,13 +132,13 @@ export default {
         }
         })
           .then((res) => {
-            const newMatchPk = res.data.id
+            console.log(res) 
+            const match_pk = res.data.id
             // 생성된 match detail페이지 라우팅
             this.$router.push({ 
-              path: `/league/${Number(newMatchPk)}`, 
-              params: { newMatchPk, movie_1, movie_2, }, 
+              name: "LeagueDetail",
+              params: { match_pk, movie_1, movie_2, }, 
               props: true, }),
-            console.log(newMatchPk)
             console.log(movie_1)
             console.log(movie_2)
             // this.$router.push({ name: 'LeagueView' })
