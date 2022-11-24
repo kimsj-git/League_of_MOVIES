@@ -2,11 +2,11 @@
   <v-container>
     <v-row>
       <v-col class="col-5">
-        <h2>{{ index + 1 }}위</h2>
+        <h2 style="color: white;">{{ index + 1 }}위</h2>
         <MovieCard :movie="this_movie" style="width: 200%" />
       </v-col>
       <v-col class="col-7">
-        <h5>이 영화가 이긴 그저 그런 영화들</h5>
+        <h5 style="color: white;">이 영화가 이긴 그저 그런 영화들</h5>
         <v-row>
           <v-col
             class="d-flex align-items-end"
