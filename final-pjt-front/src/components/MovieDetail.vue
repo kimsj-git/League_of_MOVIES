@@ -1,7 +1,7 @@
 <template>
   <v-container class="my-5">
     <v-card elevation="2">
-      <v-container>
+      <v-container class="text-left">
         <v-row>
           <h2>{{ movie?.title }}</h2>
           <v-col>
@@ -9,12 +9,16 @@
           </v-col>
           <v-col>
             <p>{{ movie.overview }}</p>
-            <p>{{ movie.vote_average }}</p>
-            <p>{{ movie.genres }}</p>
+            <p>평점: {{ movie.vote_average }}</p>
+            <p v-for="genre in movie.genres"
+            :key="genre.id"
+            >{{ getGenreNames(genre) }}
+            </p>
+            <p>{{ thisMovieGenres }}</p>
             <p></p>
           </v-col>
         </v-row>
-        <p @click.prevent="goBack()">뒤로가기</p>
+        <p class="text-right" @click.prevent="goBack()">뒤로가기</p>
       </v-container>
     </v-card>
   </v-container>
@@ -29,6 +33,7 @@ export default {
   data() {
     return {
       movie: null,
+      thisMovieGenres: this.movie.genres,
     };
   },
   components: {
@@ -37,6 +42,9 @@ export default {
   computed: {
     movies() {
       return this.$store.state.movies;
+    },
+    genres() {
+      return this.$store.state.genres;
     },
     poster() {
       return POSTER_URL + this.movie.poster_path;
@@ -52,12 +60,21 @@ export default {
         }
       }
     },
+    getGenreNames(genre) {
+      for (const genreList of this.genres) {
+        if (genreList.id === Number(genre)) {
+          this.thisMovieGenres = genreList.name;
+          break;
+        }
+      }
+    },
     goBack() {
       this.$router.go(-1);
     },
   },
   created() {
     this.getMovieId(this.$route.params.id);
+    // this.getGenreNames(genre)
   },
 };
 </script>

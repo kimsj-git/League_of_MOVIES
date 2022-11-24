@@ -17,6 +17,7 @@ export default new Vuex.Store({
   state: {
     movies: [],
     latestMovies: [],
+    genres: [],
     matches: [],
     username: '',
     token: null,
@@ -29,6 +30,9 @@ export default new Vuex.Store({
   mutations: {
     LOAD_MOVIE(state, movies) {
       state.movies = movies
+    },
+    LOAD_GENRE(state, genres) {
+      state.genres = genres
     },
     GET_LATEST_MOVIES(state, latestMovies) {
       state.latestMovies = latestMovies
@@ -62,6 +66,23 @@ export default new Vuex.Store({
         .then((res) => {
           // console.log(res.data)
           context.commit('LOAD_MOVIE', res.data)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+
+    },
+    getGenres(context) {
+      axios({
+        method: 'get',
+        url: `${API_URL}api/v1/genre/`,
+        headers: {
+          Authorization: `Token ${ context.state.token }`
+        }
+      })
+        .then((res) => {
+          // console.log(res.data)
+          context.commit('LOAD_GENRE', res.data)
         })
         .catch((err) => {
           console.log(err)

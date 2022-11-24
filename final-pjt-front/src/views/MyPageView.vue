@@ -82,28 +82,24 @@
                 sm="6"
                 md="4"
               >
-                <v-card>
-                  <v-img
-                    :src="'https://image.tmdb.org/t/p/original' + movie.poster_path"
-                    height="100%"
-                  >
-                  <span
-                    class="text-h5 white--text pl-4 pt-4 d-inline-block"
-                  >
-                  </span>
-                  </v-img>
-                </v-card>
+              <v-card
+              @click.stop="goDetail(movie.movie_id)">
+                <v-img
+                  :src="'https://image.tmdb.org/t/p/original' + movie.poster_path"
+                  height="100%"
+                >
+                <span
+                  class="text-h5 white--text pl-4 pt-4 d-inline-block"
+                >
+                </span>
+                </v-img>
+              </v-card>
               </v-col>
             </v-row>
           </v-container>
         </v-card>
       </v-list>
     </v-card>
-    <hr>
-    <h1>This is an account page</h1>
-    {{ profile }}
-    <hr>
-    <h3>그대의 이름은.......{{ profile.username }}</h3>
   </div>
 </template>
 
@@ -125,7 +121,7 @@ export default {
     },
     movies() {
       // console.log(this.$store.state.movies)
-      return this.$store.state.movies;
+      return this.profile.like_movies;
     },
     poster() {
       //  console.log(this.movie.pk)
@@ -160,6 +156,9 @@ export default {
         .catch((err) => {
           console.log(err);
         })
+    },
+    goDetail(movie_id) {
+      this.$router.push({ name: "MovieDetail", params: { movie_id } });
     },
   },
 };
