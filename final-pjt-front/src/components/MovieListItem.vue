@@ -6,22 +6,6 @@
   >
     <v-img :src="poster" alt="IMG" :aspect-ratio="1 / 1.414" />
   </v-card>
-  <!-- <div @click.stop="goDetail(movie.movie_id)">
-    <div class="flip-card">
-      <div class="flip-card-inner">
-        <div class="flip-card-front">
-          <img :src="poster" alt="IMG" style="width:100%;height:100%;">
-        </div>
-        <div class="flip-card-back">
-          <h3>{{ movie.title }}</h3>
-          <p>{{ movie.overview }}</p>
-          <button v-if="isLiked" @click.stop="movieLikes(movie.movie_id)">좋아요 취소</button>
-          <button v-if="!isLiked" @click.stop="movieLikes(movie.movie_id)">좋아요</button>
-        </div>
-      </div>
-    </div>
-
-  </div> -->
 </template>
 
 <script>

@@ -2,7 +2,7 @@
   <div>
     <h2>Movie League</h2>
     <v-btn @click.prevent="goMatchCreate()">
-      <v-icon>mdi-fencing</v-icon>매치 만들기 <v-icon>mdi-fencing</v-icon>
+      <v-icon>mdi-fencing</v-icon>START MATCH <v-icon>mdi-fencing</v-icon>
     </v-btn>
     <hr>
     <v-carousel v-model="model">
@@ -16,7 +16,7 @@
       </v-carousel-item>
     </v-carousel>
 
-    <v-container>
+    <v-container style="width: 60%;">
       <LeagueListItem v-for="match in otherMatches" :key="match.id" :match="match" />
     </v-container>
   </div>

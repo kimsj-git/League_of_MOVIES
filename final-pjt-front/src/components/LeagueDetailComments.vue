@@ -1,22 +1,20 @@
 <template>
 	<div>
-		<p>------------------------------------</p>
 		<!-- <p>{{ comment }}</p> -->
 		<div v-if="!isModifying">
-			<p>작성자: {{ comment?.user }}</p>
+			<p>작성자: {{ comment?.user.username }}</p>
 			<p>내용: {{ comment?.content }}</p>
 			<p>작성시각: {{ comment?.created_at }}</p>
-			<button @click.prevent="modifyComment">수정</button> <br>
+			<v-btn @click.prevent="modifyComment">수정</v-btn>
+			<v-btn @click.prevent="deleteComment">삭제</v-btn>
 		</div>
 		<div v-if="isModifying">
 			<form @submit.prevent="createComment">
 				<label for="modifyContent">댓글: </label>
-				<textarea :value="comment.content" @input="modifyContent=$event.target.value" id="modifyContent" cols="30" rows="3"></textarea>
+				<v-textarea :value="comment.content" @input="modifyContent=$event.target.value" id="modifyContent" cols="30" rows="3"></v-textarea>
 				<input @click="revComment" value="작성">
 			</form>
 		</div> <br>
-		<button @click.prevent="deleteComment">X</button>
-		<p>------------------------------------</p>
 
 	</div>
 </template>
