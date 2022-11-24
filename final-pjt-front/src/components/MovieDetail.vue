@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container class="my-5">
     <v-card elevation="2">
       <v-container>
         <v-row>

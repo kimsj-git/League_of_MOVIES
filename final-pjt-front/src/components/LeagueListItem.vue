@@ -2,7 +2,7 @@
   <v-container @click.stop="goMatchDetail(match.pk, match.movie_1, match.movie_2)">
     <v-row rows="auto" >
       <v-col class="row justify-content-center p-0">
-      <!-- <p>{{ firstMovie.title }} vs {{ secMovie.title }}</p> -->
+      <p>{{ firstMovie.title }} vs {{ secMovie.title }}</p>
         <v-card class="px-0 py-0 m-3" max-width="300">
           <v-img :src="firstPoster" alt="IMG" :aspect-ratio="1 / 1.414" />
         </v-card>
@@ -13,7 +13,6 @@
       <!-- <v-col class="row justify-content-center">
       </v-col> -->
     </v-row>
-    <hr />
   </v-container>
 </template>
 

@@ -8,27 +8,28 @@
       <v-col class="col-7">
         <h5>이 영화가 이긴 그저 그런 영화들</h5>
         <v-row>
-          <!-- <MovieCard 
-            v-for="losemovie in movie.win_movies"
-            :key="losemovie.movie_id"
-            :movie="losemovie" 
-          /> -->
           <v-col
             class="d-flex align-items-end"
             v-for="losemovie in movie.win_movies"
             :key="losemovie.movie_id"
             @click.stop="goToMatch()"
           >
-              <img
-                :src="
-                  'https://image.tmdb.org/t/p/original' + losemovie.poster_path
-                "
-                alt="IMG"
-                style="width: auto; height: 250px"
-                class="rounded-xl"
-              />
+            <img
+              :src="
+                'https://image.tmdb.org/t/p/original' + losemovie.poster_path
+              "
+              alt="IMG"
+              style="width: auto; height: 250px"
+              class="rounded-xl"
+            />
           </v-col>
         </v-row>
+
+        <!-- <MovieCard 
+              v-for="losemovie in movie.win_movies"
+              :key="losemovie.movie_id"
+              :movie="losemovie" 
+            /> -->
       </v-col>
     </v-row>
   </v-container>
