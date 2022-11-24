@@ -11,8 +11,8 @@ from django.shortcuts import get_object_or_404, get_list_or_404
 from django.http.response import JsonResponse
 from django.contrib.auth import get_user_model
 from django.db.models import Q
-from .serializers import MovieListSerializer, MovieSerializer, MatchListSerializer, MatchSerializer, CommentSerializer, MovieDetailSerializer, UserSerializer
-from .models import Movie, Match, Comment
+from .serializers import MovieListSerializer, MovieSerializer, MatchListSerializer, MatchSerializer, CommentSerializer, MovieDetailSerializer, UserSerializer, GenreListSerializer
+from .models import Movie, Match, Comment, Genre
 
 # Create your views here.
 @api_view(['GET', 'POST'])
@@ -30,6 +30,11 @@ def movie_list(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['GET'])
+def genre_list(request):
+    genres = get_list_or_404(Genre)
+    serializer = GenreListSerializer(genres, many=True)
+    return Response(serializer.data)
 
 @api_view(['GET'])
 def movie_detail(request, movie_pk):
