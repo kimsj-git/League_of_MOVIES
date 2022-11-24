@@ -80,20 +80,15 @@ export default {
     movies() {
         return this.$store.state.movies
     },
+    matches() {
+        return this.$store.state.matches
+    },
     firstPoster() {
         return POSTER_URL + this.firstMovie.poster_path
     },
     secPoster() {
         return POSTER_URL + this.secMovie.poster_path
     },
-    // firstMovieVotersCount() {
-    //   if (this.match.movie_1_voters) {
-    //     return this.match.movie_1_voters.length
-    //   }
-    // },
-    // secMovieVotersCount() {
-    //   return this.match?.movie_2_voters?.length
-    // },
   },
   methods: {
     getMatchDetail() {
@@ -217,10 +212,10 @@ export default {
       })
         .then((res) => {
           if (res.status === 208) {
-            alert('͡° ͜ʖ ͡°,,,,,그대는 이미 투표에 참여했어')
-          } else (
-            this.getMatchDetail()
-          )
+            alert('͡ ° ͜ʖ ͡°,,,,,그대는 이미 투표에 참여했어')
+          } else {            this.getMatchDetail()
+            console.log(res)
+          }
         })
         .catch((err) => {
           console.log(err)
@@ -228,6 +223,13 @@ export default {
     }
   },
   created() {
+    console.log(this.$route.params)
+    console.log(this.$route.params.match_pk)
+    console.log(this.$route.params.movie_1)
+    console.log(this.$route.params.movie_2)
+    console.log(this.match_pk)
+    console.log(this.movie_1)
+    console.log(this.movie_2)
     this.getMatchDetail()
     this.getMatchMovies()
     this.getComments()

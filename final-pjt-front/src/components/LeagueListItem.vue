@@ -52,7 +52,7 @@ export default {
         name: "LeagueDetail",
         params: { match_pk, movie_1, movie_2 },
         props: true,
-      });
+      })
     },
     getMatchMovies() {
       const firstId = this.match.movie_1;

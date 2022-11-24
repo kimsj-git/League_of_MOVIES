@@ -59,21 +59,73 @@
             <v-list-item-icon>
               <v-icon>mdi-home</v-icon>
             </v-list-item-icon>
-            <v-list-item-title>Home</v-list-item-title>
+            <v-list-item-title>
+              <router-link to="/" class="deep-purple--text" style="text-decoration: none">
+              League
+              </router-link>
+            </v-list-item-title>
+          </v-list-item>
+
+          <v-list-item class="hidden-md-and-up">
+            <v-list-item-icon>
+              <v-icon>mdi-home</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>
+              <router-link to="/match-ranking" class="deep-purple--text" style="text-decoration: none">
+              Ranking
+              </router-link>
+            </v-list-item-title>
           </v-list-item>
 
           <v-list-item>
             <v-list-item-icon>
               <v-icon>mdi-account</v-icon>
             </v-list-item-icon>
-            <v-list-item-title>Account</v-list-item-title>
+            <v-list-item-title>
+              <router-link to="/mypage" class="deep-purple--text" style="text-decoration: none">
+              MyPage
+              </router-link>
+            </v-list-item-title>
           </v-list-item>
+
           <v-list-item>
             <v-list-item-icon>
               <v-icon>mdi-heart</v-icon>
             </v-list-item-icon>
-            <v-list-item-title>내가 좋아하는 영화</v-list-item-title>
+            <v-list-item-title>
+              <router-link to="/ranking" class="deep-purple--text" style="text-decoration: none">
+              '͡ ° ͜ʖ ͡  그대가 좋아할만한...영화
+              </router-link>
+            </v-list-item-title>
           </v-list-item>
+
+          <v-list-item v-if="isLogin" class="hidden-md-and-up">
+            <v-list-item-icon>
+              <v-icon>mdi-home</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>
+              <router-link 
+              @click.native="logout"
+              to="/logout"
+              v-if="isLogin"
+              class="deep-purple--text" 
+              style="text-decoration: none">
+              LogOut
+              </router-link>
+            </v-list-item-title>
+          </v-list-item>
+
+          <v-list-item v-if="!isLogin" class="hidden-md-and-up">
+            <v-list-item-icon>
+              <v-icon>mdi-home</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>
+              <router-link to="/login" class="deep-purple--text" style="text-decoration: none">
+              LogIn
+              </router-link>
+            </v-list-item-title>
+          </v-list-item>
+
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>

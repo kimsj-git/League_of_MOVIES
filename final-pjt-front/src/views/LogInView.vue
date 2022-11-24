@@ -10,6 +10,11 @@
   
         <input type="submit" value="logIn">
       </form>
+      <br>
+      <p>아직 회원이 아니신가요?</p>
+      <p>⬇⬇⬇⬇⬇⬇⬇⬇⬇</p>
+      <router-link to="/signup">❤Ѽ즉ㅅ17ㅏ입❤✧</router-link>
+      <p>➼ヌㅣ금 7ㅏ입ㅅ1 ㅇㅏㅇ1ㄷ1♂ 丨0❤0% 증정!❚!✯</p>
     </div>
 </template>
   
