@@ -11,7 +11,7 @@ from django.shortcuts import get_object_or_404, get_list_or_404
 from django.http.response import JsonResponse
 from django.contrib.auth import get_user_model
 from django.db.models import Q
-from .serializers import MovieListSerializer, MovieSerializer, MatchListSerializer, MatchSerializer, CommentSerializer, MovieDetailSerializer
+from .serializers import MovieListSerializer, MovieSerializer, MatchListSerializer, MatchSerializer, CommentSerializer, MovieDetailSerializer, UserSerializer
 from .models import Movie, Match, Comment
 
 # Create your views here.
@@ -190,3 +190,10 @@ def movie_list_win_rate(request):
     
     json_data.sort(key=lambda x: [-x.get('win_rate'), -len(x.get('win_movies'))])
     return Response(json_data)
+
+
+@api_view(['GET'])
+def profile(request):
+    user = get_user_model().objects.get(pk=request.user.pk)
+    serializer = UserSerializer(user)
+    return Response(serializer.data)

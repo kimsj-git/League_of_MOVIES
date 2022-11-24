@@ -1,109 +1,115 @@
 <template>
-  <div class="d-flex">
-    <h2>{{ index+1 }}등</h2>
-    <div @click.stop="goDetail(movie.movie_id)">
-      <div class="flip-card">
-        <div class="flip-card-inner">
-          <div class="flip-card-front">
-            <img :src="posterMain" alt="IMG" style="width:100%;height:100%;">
-          </div>
-          <div class="flip-card-back">
-            <h3>{{ movie.title }}</h3>
-            <p>{{ movie.overview }}</p>
-            <button v-if="isLiked" @click.stop="movieLikes(movie.movie_id)">좋아요 취소</button>
-            <button v-if="!isLiked" @click.stop="movieLikes(movie.movie_id)">좋아요</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- <p>{{ movie.win_movies }}</p> -->
-    <h5>이 영화가 이긴 그저 그런 영화들</h5>
-    <div 
-    class="d-flex align-items-end" 
-    v-for="losemovie in movie.win_movies" 
-    :key="losemovie.movie_id"
-    @click.stop="goToMatch()">
-      <!-- <p>{{ losemovie }}</p> -->
-      <p>{{ losemovie.title }} <br>
-        <img :src="'https://image.tmdb.org/t/p/original' + losemovie.poster_path" alt="IMG" style="width:auto;height:250px;">
-      </p>
-    </div>
-  </div>
+  <v-container>
+    <v-row>
+      <v-col class="col-5">
+        <h2>{{ index + 1 }}위</h2>
+        <MovieCard :movie="this_movie" style="width: 200%" />
+      </v-col>
+      <v-col class="col-7">
+        <h5>이 영화가 이긴 그저 그런 영화들</h5>
+        <v-row>
+          <!-- <MovieCard 
+            v-for="losemovie in movie.win_movies"
+            :key="losemovie.movie_id"
+            :movie="losemovie" 
+          /> -->
+          <v-col
+            class="d-flex align-items-end"
+            v-for="losemovie in movie.win_movies"
+            :key="losemovie.movie_id"
+            @click.stop="goToMatch()"
+          >
+              <img
+                :src="
+                  'https://image.tmdb.org/t/p/original' + losemovie.poster_path
+                "
+                alt="IMG"
+                style="width: auto; height: 250px"
+                class="rounded-xl"
+              />
+          </v-col>
+        </v-row>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
+import MovieCard from "@/components/MovieCard";
 
-const POSTER_URL = 'https://image.tmdb.org/t/p/original'
-const API_URL = 'http://127.0.0.1:8000/'
+const POSTER_URL = "https://image.tmdb.org/t/p/original";
+const API_URL = "http://127.0.0.1:8000/";
 
 export default {
-  name: 'MatchRankingListItem',
+  name: "MatchRankingListItem",
   components: {
+    MovieCard,
   },
   data() {
     return {
       isLiked: null,
       loseMovies: [],
-    }
+      this_movie: this.movie,
+    };
   },
   props: {
     index: Number,
-    movie: Object, 
+    movie: Object,
   },
   created() {
-    this.getLiked()
+    this.getLiked();
     // this.getLoseMovies()
   },
   computed: {
     movieData() {
-      return this.$store.state.movies
+      return this.$store.state.movies;
     },
     posterMain() {
       //  console.log(this.movie.pk)
-      return POSTER_URL + this.movie.poster_path
+      return POSTER_URL + this.movie.poster_path;
     },
     // posterLose() {
     //   //  console.log(this.movie.pk)
     //   let loseMovie = this.loseMovie
     //   return POSTER_URL + loseMovie.poster_path
-    // }, 
+    // },
   },
   methods: {
     goDetail(movie_id) {
-      this.$router.push({ name: 'MovieDetail', params:{movie_id} })
+      this.$router.push({ name: "MovieDetail", params: { movie_id } });
     },
     getLiked() {
       axios({
-        method: 'get',
+        method: "get",
         url: `${API_URL}api/v1/movies/${Number(this.movie.movie_id)}/likes/`,
         headers: {
-          Authorization: `Token ${ this.$store.state.token }`
-        }
+          Authorization: `Token ${this.$store.state.token}`,
+        },
       })
         .then((res) => {
-          this.isLiked = res.data.is_liked
+          this.isLiked = res.data.is_liked;
         })
         .catch((err) => {
-          console.log(err)
-        })
+          console.log(err);
+        });
     },
     movieLikes(movie_id) {
       axios({
-        method: 'post',
+        method: "post",
         url: `${API_URL}api/v1/movies/${Number(movie_id)}/likes/`,
         headers: {
-          Authorization: `Token ${ this.$store.state.token }`
-        }
+          Authorization: `Token ${this.$store.state.token}`,
+        },
       })
         .then((res) => {
-          console.log(res)
-          this.isLiked = res.data.is_liked
-          console.log(this.isLiked)
+          console.log(res);
+          this.isLiked = res.data.is_liked;
+          console.log(this.isLiked);
         })
         .catch((err) => {
-          console.log(err)
-        })
+          console.log(err);
+        });
     },
     // getLoseMovies() {
     //   for (const loseMovie of this.movie.win_movies) {
@@ -120,7 +126,7 @@ export default {
     //   }
     // },
   },
-}
+};
 </script>
 
 <style>
@@ -149,7 +155,8 @@ export default {
 }
 
 /* Position the front and back side */
-.flip-card-front, .flip-card-back {
+.flip-card-front,
+.flip-card-back {
   position: absolute;
   width: 100%;
   height: 100%;

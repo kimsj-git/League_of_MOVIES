@@ -1,64 +1,56 @@
 <template>
-  <div>
+  <v-container>
     <h2>Match Ranking</h2>
-    <!-- <button @click.prevent="goMatchCreate()">매치 만들기!</button> -->
-    <div class="container">
-      <!-- <CreateMatch/> -->
-      <hr>
-      <div>
-        <MatchRankingListItem
-            v-for="(movie, index) in rankingMovies"
-            :key="movie.movie_id"
-            :index="index"
-            :movie="movie"/>
-      </div>
-    </div>
-  </div>
+    <MatchRankingListItem
+      v-for="(movie, index) in rankingMovies"
+      :key="movie.movie_id"
+      :index="index"
+      :movie="movie"
+    />
+  </v-container>
 </template>
 
 <script>
-import MatchRankingListItem from '@/components/MatchRankingListItem'
-import axios from 'axios'
+import MatchRankingListItem from "@/components/MatchRankingListItem";
+import axios from "axios";
 
 // const POSTER_URL = 'https://image.tmdb.org/t/p/original'
-const API_URL = 'http://127.0.0.1:8000/api/v1'
+const API_URL = "http://127.0.0.1:8000/api/v1";
 
 export default {
-  name: 'MatchRankingList',
+  name: "MatchRankingList",
   components: {
-    MatchRankingListItem
+    MatchRankingListItem,
   },
   data() {
     return {
       rankingMovies: null,
-    }
+    };
   },
-  computed: {
-    },
+  computed: {},
   methods: {
     moviesRanking() {
       axios({
-        method: 'get',
+        method: "get",
         url: `${API_URL}/ranking/win_rate/`,
         headers: {
-          Authorization: `Token ${ this.$store.state.token }`
+          Authorization: `Token ${this.$store.state.token}`,
         },
       })
         .then((res) => {
           // console.log(res)
-          this.rankingMovies = res.data
+          this.rankingMovies = res.data;
         })
         .catch((err) => {
-          console.log(err)
-        })
+          console.log(err);
+        });
     },
     goMatchCreate() {
-      this.$router.push({ name: 'CreateMatch' })
+      this.$router.push({ name: "CreateMatch" });
     },
   },
   created() {
-    this.moviesRanking()
-  }
-
-}
+    this.moviesRanking();
+  },
+};
 </script>

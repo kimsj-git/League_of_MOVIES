@@ -11,6 +11,7 @@ urlpatterns = [
     path('league/<int:match_pk>/comments/', views.comment_list),
     path('league/<int:match_pk>/comments/<int:comment_pk>/', views.comment_detail),
     path('ranking/win_rate/', views.movie_list_win_rate),
+    path('profile/', views.profile),
 
     # path('tmdb/toprated', views.get_top_rated),
 ]
