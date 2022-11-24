@@ -69,13 +69,28 @@ def match_list(request):
     if request.method == 'GET':
         matches = get_list_or_404(Match)
         serializer = MatchListSerializer(matches, many=True)
+        json_data = serializer.data
+        # 총 득표수가 많은 순으로 매치 정렬
+        for data in json_data:
+            match = Match.objects.get(pk=data.get('pk'))
+            voters_cnt = match.movie_1_voters.count() + match.movie_2_voters.count()
+            # voters_diff = abs(match.movie_1_voters.count() - match.movie_2_voters.count())
+            data['voters_cnt'] = voters_cnt
+            # data['voters_diff'] = voters_diff
+            print(data.get('voters_cnt'))
+        json_data.sort(key=lambda x: [-x.get('voters_cnt')])
+        # print(json_data)
         return Response(serializer.data)
     
     elif request.method == 'POST':
-        # movie_1, movie_2 조합이 get_list_or_404(Match)에 존재하면 생성 막아야함
-        user = get_user_model().objects.get(pk=request.user.pk).pk
-        print(user)
-        serializer = MatchSerializer(data=request.data)
+        '''
+        movie_1, movie_2 조합이 get_list_or_404(Match)에 존재하면 생성 막아야함
+        '''
+        # matches = get_list_or_404(Match)
+        # for match in matches:
+        #     if set(match.movie_1.pk, match.movie_2.pk) == set(request.data.???):
+        #         pass
+        serialzier = MatchSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
