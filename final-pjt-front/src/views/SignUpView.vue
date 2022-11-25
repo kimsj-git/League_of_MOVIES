@@ -1,17 +1,17 @@
-<template>
+<template style="background-color: white">
   <div>
-    <h1>Sign Up Page</h1>
+    <h1 style="color: white">Sign Up Page</h1>
     <form @submit.prevent="signUp">
-      <label for="username">username : </label>
+      <label for="username" style="color: white">username : </label>
       <input type="text" id="username" v-model="username" /><br />
 
-      <label for="password1"> password : </label>
+      <label for="password1" style="color: white"> password : </label>
       <input type="password" id="password1" v-model="password1" /><br />
 
-      <label for="password2"> password confirmation : </label>
+      <label for="password2" style="color: white"> password confirmation : </label>
       <input type="password" id="password2" v-model="password2" />
-
-      <input type="submit" value="SignUp" />
+      
+      <input type="submit" style="color: white" value="SignUp" />
     </form>
   </div>
 </template>
@@ -43,3 +43,10 @@ export default {
   },
 };
 </script>
+
+<style>
+input, select, textarea{
+    color: white;
+    border-color: white;
+}
+</style>
