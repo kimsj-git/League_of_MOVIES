@@ -1,14 +1,14 @@
 <template>
     <div>
-      <h1>LogIn Page</h1>
+      <h1 style="color: white">LogIn Page</h1>
       <form @submit.prevent="logIn">
-        <label for="username">username : </label>
+        <label for="username" style="color: white">username : </label>
         <input type="text" id="username" v-model="username"><br>
   
-        <label for="password"> password : </label>
+        <label for="password" style="color: white"> password : </label>
         <input type="password" id="password" v-model="password"><br>
   
-        <input type="submit" value="logIn">
+        <input type="submit" style="color: white" value="logIn">
       </form>
       <br>
       <p>아직 회원이 아니신가요?</p>
