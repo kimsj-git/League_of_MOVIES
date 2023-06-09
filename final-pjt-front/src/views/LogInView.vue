@@ -11,6 +11,9 @@
         <input type="submit" style="color: white" value="logIn">
       </form>
       <br>
+      <div style="color: aliceblue;">
+        <p >테스트 계정 : test0 / movie1234</p>
+      </div>
       <p>아직 회원이 아니신가요?</p>
       <p>⬇⬇⬇⬇⬇⬇⬇⬇⬇</p>
       <router-link to="/signup">❤Ѽ즉ㅅ17ㅏ입❤✧</router-link>
