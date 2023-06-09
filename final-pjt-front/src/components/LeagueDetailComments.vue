@@ -29,7 +29,8 @@
 <script>
 import axios from 'axios'
 
-const MATCH_URL = 'http://127.0.0.1:8000/api/v1/league'
+// const MATCH_URL = 'http://127.0.0.1:8000/api/v1/league'
+const MATCH_URL = 'https://lom.kimsj.dev/api/v1/league'
 
 export default {
 	name: 'LeagueDetailComments',
