@@ -18,11 +18,15 @@ RUN npm run build
 
 FROM nginx
 
-RUN rm -rf /etc/nginx/conf.d
+# RUN rm -rf /etc/nginx/conf.d
 
-COPY conf /etc/nginx
+# COPY conf /etc/nginx
 
-COPY --from=builder /usr/src/app/build /usr/share/nginx/html
+# COPY --from=builder /usr/src/app/build /usr/share/nginx/html
+
+COPY --from=build-stage /usr/src/app/dist /app
+
+COPY nginx.conf /etc/nginx/nginx.conf
 
 EXPOSE 3100
 
