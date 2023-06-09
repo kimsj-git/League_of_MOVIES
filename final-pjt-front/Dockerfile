@@ -20,7 +20,7 @@ FROM nginx
 
 RUN rm -rf /etc/nginx/conf.d
 
-COPY ./final-pjt-front/conf /etc/nginx
+COPY ./final-pjt-front/conf/conf.d /etc/nginx
 
 COPY --from=builder /usr/src/app/build /usr/share/nginx/html
 
