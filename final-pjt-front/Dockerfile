@@ -12,7 +12,7 @@ RUN npm install -g npm@9.6.5
 RUN npm install 
 RUN npm install react-scripts@3.4.1 -g
 
-COPY ./fianl-pjt-front /usr/src/app
+COPY ./final-pjt-front /usr/src/app
 
 RUN npm run build
 
