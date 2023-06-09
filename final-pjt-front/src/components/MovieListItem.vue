@@ -13,7 +13,7 @@ import axios from "axios";
 
 const POSTER_URL = "https://image.tmdb.org/t/p/original";
 // const API_URL = "http://127.0.0.1:8000/";
-const API_URL = "https://lom.kimsj.dev/api/v1";
+const API_URL = "https://lom.kimsj.dev/";
 
 export default {
   name: "MovieListItem",
