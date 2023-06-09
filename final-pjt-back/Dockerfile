@@ -10,9 +10,6 @@ RUN pip install -r requirements.txt
 
 COPY . /lom-back
 
-RUN python manage.py migrate
-RUN python manage.py loaddata movies.json genres.json
-
 EXPOSE 8100
 
 CMD ["gunicorn", "pjt.asgi:application","-k", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:8100"]
