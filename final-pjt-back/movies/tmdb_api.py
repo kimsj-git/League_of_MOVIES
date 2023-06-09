@@ -1,14 +1,21 @@
 import requests
 import os
 import json
+import environ
 
 BASE_DIR = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
-secret_file = os.path.join(BASE_DIR, 'secrets.json')
-with open(secret_file) as f:
-    secrets = json.load(f)
+# secret_file = os.path.join(BASE_DIR, 'secrets.json')
+# with open(secret_file) as f:
+#     secrets = json.load(f)
+
+env = environ.Env(
+    DEBUG=(bool, False)
+)
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+API_KEY = env('API_KEY')
 
 BASE_URL = 'https://api.themoviedb.org/3'
-API_KEY = secrets["API_KEY"]
+# API_KEY = secrets["API_KEY"]
 
 
 def get_movies_json(path):
@@ -48,7 +55,7 @@ path_popular = '/movie/popular'
 path_now_playing = '/movie/now_playing'
 path_upcoming = '/movie/upcoming'
 
-# get_movies_json(path_top_rated)
+get_movies_json(path_popular)
 
 
 def get_genres_json():
@@ -80,4 +87,4 @@ def get_genres_json():
         json.dump(json_data, make_file, ensure_ascii=False, indent="\t")
 
 
-get_genres_json()
+# get_genres_json()
