@@ -7,10 +7,11 @@ COPY requirements.txt /lom-back
 RUN apt-get update && apt-get install -y libgl1-mesa-glx
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
-RUN python final-pjt-back/manage.py migrate
-RUN python final-pjt-back/manage.py loaddata movies.json genres.json
 
 COPY . /lom-back
+
+RUN final-pjt-back/python manage.py migrate
+RUN final-pjt-back/python manage.py loaddata movies.json genres.json
 
 EXPOSE 8100
 
