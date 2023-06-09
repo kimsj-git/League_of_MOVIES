@@ -11,7 +11,7 @@ RUN pip install -r requirements.txt
 COPY . /lom-back
 
 RUN python final-pjt-back/manage.py migrate
-RUN python manage.py final-pjt-back/loaddata movies.json genres.json
+RUN python final-pjt-back/manage.py loaddata movies.json genres.json
 
 EXPOSE 8100
 
