@@ -7,6 +7,8 @@ COPY requirements.txt /lom-back
 RUN apt-get update && apt-get install -y libgl1-mesa-glx
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
+RUN python manage.py migrate
+RUN python manage.py loaddata movies.json genres.json
 
 COPY . /lom-back
 
