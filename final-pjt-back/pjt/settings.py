@@ -116,18 +116,18 @@ WSGI_APPLICATION = 'pjt.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'Name': 'mysql',
-        'USER': 'root',
-        'PASSWORD': env('MYSQL_ROOT_PASSWORD'),
-        'HOST': 'mysql',
-        'PORT': '3306',
-    }
     # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': BASE_DIR / 'db.sqlite3',
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'Name': 'mysql',
+    #     'USER': 'root',
+    #     'PASSWORD': env('MYSQL_ROOT_PASSWORD'),
+    #     'HOST': 'mysql',
+    #     'PORT': '3306',
     # }
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
 
 
