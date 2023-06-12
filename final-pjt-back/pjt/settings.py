@@ -117,9 +117,17 @@ WSGI_APPLICATION = 'pjt.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'Name': 'MYSQL',
+        'USER': 'root',
+        'PASSWORD': env('MYSQL_ROOT_PASSWORD'),
+        'HOST': 'mysql',
+        'PORT': '3306',
     }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # }
 }
 
 
