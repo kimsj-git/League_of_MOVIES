@@ -14,7 +14,7 @@ class Movie(models.Model):
     movie_id = models.IntegerField(primary_key=True, default=0)
     title = models.CharField(max_length=50)
     poster_path = models.CharField(max_length=100)
-    overview = models.CharField(max_length=500)
+    overview = models.CharField(max_length=5000)
     vote_average = models.FloatField(default=0)
     genres = models.ManyToManyField(Genre)
     like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_movies', blank=True)
