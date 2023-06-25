@@ -25,6 +25,8 @@ export default {
   methods: {
     getMatches() {
       if (this.isLogin === true) {
+        this.$store.dispatch('getMovies')
+        this.$store.dispatch('getGenres')
         this.$store.dispatch('getMatches')
       } else {
         alert('여기서 로그인하셔야 합니다.')
