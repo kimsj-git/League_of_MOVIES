@@ -118,7 +118,7 @@ WSGI_APPLICATION = 'pjt.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'Name': 'lom',
+        'NAME': 'lom',
         'USER': 'root',
         'PASSWORD': env('MYSQL_ROOT_PASSWORD'),
         'HOST': 'mysql',
